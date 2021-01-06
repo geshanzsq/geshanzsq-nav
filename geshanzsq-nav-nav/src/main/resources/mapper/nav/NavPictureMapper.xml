@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geshanzsq.nav.mapper.NavPictureMapper">
+    
+    <resultMap type="NavPicture" id="NavPictureResult">
+        <result property="pictureId"    column="picture_id"    />
+        <result property="picturePath"    column="picture_path"    />
+        <result property="pictureOld"    column="picture_old"    />
+        <result property="pictureMd5"    column="picture_md5"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectNavPictureVo">
+        select picture_id, picture_path, picture_old, picture_md5, create_time, update_time, create_by, update_by, status from nav_picture
+    </sql>
+
+    <select id="selectNavPictureList" parameterType="NavPicture" resultMap="NavPictureResult">
+        <include refid="selectNavPictureVo"/>
+        <where>  
+            <if test="picturePath != null  and picturePath != ''"> and picture_path = #{picturePath}</if>
+            <if test="pictureOld != null  and pictureOld != ''"> and picture_old = #{pictureOld}</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="pictureMd5 != null"> and picture_md5 = #{pictureMd5}</if>
+        </where>
+    </select>
+    
+    <select id="selectNavPictureById" parameterType="Long" resultMap="NavPictureResult">
+        <include refid="selectNavPictureVo"/>
+        where picture_id = #{pictureId}
+    </select>
+        
+    <insert id="insertNavPicture" parameterType="NavPicture" useGeneratedKeys="true" keyProperty="pictureId">
+        insert into nav_picture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="picturePath != null">picture_path,</if>
+            <if test="pictureOld != null">picture_old,</if>
+            <if test="pictureMd5 != null">picture_md5,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="picturePath != null">#{picturePath},</if>
+            <if test="pictureOld != null">#{pictureOld},</if>
+            <if test="pictureMd5 != null">#{pictureMd5},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNavPicture" parameterType="NavPicture">
+        update nav_picture
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="picturePath != null">picture_path = #{picturePath},</if>
+            <if test="pictureOld != null">picture_old = #{pictureOld},</if>
+            <if test="pictureMd5 != null">picture_md5 = #{pictureMd5},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where picture_id = #{pictureId}
+    </update>
+
+    <delete id="deleteNavPictureById" parameterType="Long">
+        delete from nav_picture where picture_id = #{pictureId}
+    </delete>
+
+    <delete id="deleteNavPictureByIds" parameterType="String">
+        delete from nav_picture where picture_id in 
+        <foreach item="pictureId" collection="array" open="(" separator="," close=")">
+            #{pictureId}
+        </foreach>
+    </delete>
+    
+</mapper>

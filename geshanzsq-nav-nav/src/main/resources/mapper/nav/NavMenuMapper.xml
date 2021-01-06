@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geshanzsq.nav.mapper.NavMenuMapper">
+    
+    <resultMap type="NavMenu" id="NavMenuResult">
+        <result property="menuId"    column="menu_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="orderNum"    column="order_num"    />
+        <result property="menuName"    column="menu_name"    />
+        <result property="menuIcon"    column="menu_icon"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <sql id="selectNavMenuVO">
+        select menu_id, parent_id, order_num, menu_name, menu_icon, create_time, status from nav_menu
+    </sql>
+
+    <select id="selectNavMenuList" parameterType="NavMenu" resultMap="NavMenuResult">
+        <include refid="selectNavMenuVO"/>
+        <where>
+            and status != 2
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+            <if test="orderNum != null "> and order_num = #{orderNum}</if>
+            <if test="menuName != null  and menuName != ''"> and menu_name like concat('%', #{menuName}, '%')</if>
+            <if test="status != null "> and status = #{status}</if>
+            <if test="parentId != null "> and parent_id = #{parentId}</if>
+        </where>
+        order by parent_id, order_num
+    </select>
+    
+    <select id="selectNavMenuById" parameterType="Long" resultMap="NavMenuResult">
+        <include refid="selectNavMenuVO"/>
+        where menu_id = #{menuId}
+    </select>
+        
+    <insert id="insertNavMenu" parameterType="NavMenu" useGeneratedKeys="true" keyProperty="menuId">
+        insert into nav_menu
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="orderNum != null">order_num,</if>
+            <if test="menuName != null and menuName != ''">menu_name,</if>
+            <if test="menuIcon != null">menu_icon,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="orderNum != null">#{orderNum},</if>
+            <if test="menuName != null and menuName != ''">#{menuName},</if>
+            <if test="menuIcon != null">#{menuIcon},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNavMenu" parameterType="NavMenu">
+        update nav_menu
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="orderNum != null">order_num = #{orderNum},</if>
+            <if test="menuName != null and menuName != ''">menu_name = #{menuName},</if>
+            <if test="menuIcon != null">menu_icon = #{menuIcon},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where menu_id = #{menuId}
+    </update>
+
+    <delete id="deleteNavMenuById" parameterType="Long">
+         update nav_menu set status = 2  where menu_id = #{menuId}
+    </delete>
+
+    <delete id="deleteNavMenuByIds" parameterType="String">
+        update nav_menu set status = 2 where menu_id in
+        <foreach item="menuId" collection="array" open="(" separator="," close=")">
+            #{menuId}
+        </foreach>
+    </delete>
+
+    <!-- 通过父级id获取子菜单 -->
+    <select id="selectNavMenuByParentId" parameterType="Long" resultMap="NavMenuResult">
+        <include refid="selectNavMenuVO"/>
+        where parent_id = #{parentId}
+    </select>
+
+    <!-- 获取菜单数量 -->
+    <select id="getCount" parameterType="Integer" resultType="int">
+        select count(*) from nav_menu
+        <where>
+            <if test="status != null">status = #{status}</if>
+        </where>
+    </select>
+
+    <!-- 获取该子菜单下最大的排序 -->
+    <select id="getMaxChildrenMenuOrderNum" parameterType="Long" resultType="Integer">
+        select max(order_num) from nav_menu where parent_id = #{menuId}
+    </select>
+
+    <!-- 通过菜单数组获取菜单信息 -->
+    <select id="selectMenuByIds" parameterType="Object" resultMap="NavMenuResult">
+        <include refid="selectNavMenuVO"/>
+        <where>
+            <if test="sysMenuIds != null ">
+                menu_id in
+                <foreach collection="sysMenuIds" open="(" separator="," close=")" item="menuId">
+                    #{menuId}
+                </foreach>
+            </if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+        order by parent_id, order_num
+    </select>
+    
+</mapper>
