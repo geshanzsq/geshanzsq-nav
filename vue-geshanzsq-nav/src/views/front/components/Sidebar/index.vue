@@ -16,6 +16,7 @@
         <sidebar-item
             v-for="(menu, index) in menuList"
             :menu="menu"
+            :key="index"
             :menu-index="index + ''"
         />
 
