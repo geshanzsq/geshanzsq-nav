@@ -8,6 +8,8 @@
             ref="cropper"
             :img="options.img"
             :info="true"
+            :outputType="options.outputType"
+            :outputSize="options.outputSize"
             :autoCrop="options.autoCrop"
             :autoCropWidth="options.autoCropWidth"
             :autoCropHeight="options.autoCropHeight"
@@ -74,6 +76,8 @@ export default {
       title: "修改头像",
       options: {
         img: store.getters.avatar, //裁剪图片的地址
+        outputSize: 1, // 裁剪生成图片的质量
+        outputType: 'png', // 裁剪生成图片的格式
         autoCrop: true, // 是否默认生成截图框
         autoCropWidth: 200, // 默认生成截图框宽度
         autoCropHeight: 200, // 默认生成截图框高度
