@@ -1,5 +1,5 @@
 module.exports = {
-  title: '格姗知识圈导航系统',
+  title: '格姗知识圈导航',
 
   /**
    * 侧边栏主题 深色主题theme-dark，浅色主题theme-light

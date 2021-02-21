@@ -56,14 +56,7 @@
     methods: {
       // 点击网站时，打开事件
       handleCard(url) {
-        if (!this.openSite) {
-          return;
-        }
-        let site = this.$router.resolve({
-          path: "/go",
-          query: { url: url }
-        });
-        window.open(site.href, "_blank");
+        window.open(url, "_blank");
       },
       siteCardEnter(event) {
         if (!this.changeTitleColor) {

@@ -113,12 +113,6 @@ export const constantRoutes = [
     hidden: true
   },
   {
-    path: '/go',
-    component: (resolve) => require(['@/views/front/go'], resolve),
-    hidden: true,
-    meta: { title: '网页跳转' }
-  },
-  {
     path: '/search/:siteName',
     component: (resolve) => require(['@/views/front/search'], resolve),
     hidden: true,
