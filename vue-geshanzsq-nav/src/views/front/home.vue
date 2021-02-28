@@ -1,29 +1,12 @@
 <template>
-  <div :class="classObj"
-       class="app-wrapper"
-       v-loading.fullscreen.lock="loading"
-       element-loading-text="正在加载导航资源，请耐心等待......"
-       element-loading-background="rgba(0, 0, 0, 0.8)"
-  >
-    <div v-if="isMobile && sidebar.opened" class="drawer-bg" :style="{height: drawerBgHeight}" @click="handleClickOutside" />
-
-    <sidebar class="sidebar-container" :menuList="menuList"/>
-
-    <div class="main-container"
-         :class="{'main-container-fixed-header':isMobile || fixedHeader}"
-         ref="mainContainer">
-
-      <div :class="{'fixed-header': isMobile || fixedHeader}">
-        <navbar/>
-      </div>
-
-      <div class="app-container">
+    <front-home :menu-list="menuList">
+      <div slot="mainContainer" class="app-container"
+           v-loading="loading" element-loading-text="拼命加载中，请稍等..." element-loading-spinner="el-icon-loading">
         <el-row :gutter="24" type="flex" justify="center">
           <el-col :sm="16" :sx="24">
             <search class="search"/>
           </el-col>
         </el-row>
-
         <div v-for="menu in siteList">
           <h4 v-if="menu.siteList" :id="'item-' + menu.menuId" :ref="'item-' +menu.menuId">
             <svg-icon icon-class="tag" style="margin-right: 7px;font-size: 18px"/>
@@ -36,25 +19,7 @@
           </el-row>
         </div>
       </div>
-      <footer-bottom/>
-
-      <!-- 右下角回到顶部 -->
-      <el-backtop :right="20" :bottom="20">
-        <i class="el-icon-caret-top"></i>
-      </el-backtop>
-
-      <!-- 右下角搜索图标 -->
-      <el-backtop :right="20" :bottom="65">
-        <!-- 添加 padding 样式，这样就不会回到顶部 -->
-        <i class="el-icon-search" style="padding: 5px" @click.stop="handleSearch"></i>
-      </el-backtop>
-
-      <!-- 弹出搜索对话框 -->
-      <el-dialog :visible.sync="searchOpenDialog" :width="isMobile ? '100%' : '60%'" center><search/></el-dialog>
-
-    </div>
-
-  </div>
+    </front-home>
 </template>
 
 <script>
@@ -62,6 +27,7 @@
   import Search from "@/components/Search";
   import SiteCard from "@/components/SiteCard/SiteCard";
   import FooterBottom from '@/components/FooterBottom'
+  import FrontHome from './FrontHome';
 
   import { mapState } from 'vuex'
   import ResizeMixin from './mixin/ResizeHandler'
@@ -81,6 +47,7 @@
       Search,
       SiteCard,
       FooterBottom,
+      FrontHome
     },
     data() {
       return {
@@ -220,15 +187,6 @@
 
   .main-container-fixed-header {
     padding-top: 50px;
-  }
-
-  .add-plus {
-    float: right;
-    line-height: 50px;
-    margin-right: -18px;
-    height: 100%;
-    display: none;
-    font-size: 20px;
   }
 
 </style>
