@@ -20,7 +20,7 @@
             :menu-index="index + ''"
         />
 
-        <router-link to="/about" target="_blank">
+        <router-link to="/about">
           <el-menu-item index="about">
             <item icon="heart" title="关于本站"/>
           </el-menu-item>

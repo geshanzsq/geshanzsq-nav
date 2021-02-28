@@ -8,10 +8,26 @@ export function getFrontNav() {
   });
 }
 
+// 获取导航菜单
+export function getFrontMenu() {
+  return request({
+    url: '/frontNav/getFrontMenu',
+    method: 'get'
+  });
+}
+
 //搜索站内
 export function searchSite(siteName) {
   return request({
     url: '/frontNav/search/' + siteName,
     method: 'get',
+  })
+}
+
+// 获取关于本站
+export function getNavAbout() {
+  return request({
+    url: '/frontNav/getNavAbout',
+    method: 'get'
   })
 }

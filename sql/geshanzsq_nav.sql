@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 07/01/2021 00:17:33
+ Date: 28/02/2021 19:31:30
 */
 
 SET NAMES utf8mb4;
@@ -702,7 +702,7 @@ CREATE TABLE `sys_dict_data`  (
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_code`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 104 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典数据表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_data
@@ -756,7 +756,7 @@ CREATE TABLE `sys_dict_type`  (
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dict_id`) USING BTREE,
   UNIQUE INDEX `dict_type`(`dict_type`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 100 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 102 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '字典类型表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_dict_type
@@ -815,7 +815,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2003 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2014 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -909,6 +909,8 @@ INSERT INTO `sys_menu` VALUES (2010, '网站修改', 2002, 3, '', NULL, 1, 0, 'F
 INSERT INTO `sys_menu` VALUES (2011, '网站删除', 2002, 4, '', NULL, 1, 0, 'F', '0', '0', 'nav:site:remove', '#', 'admin', '2021-01-07 00:08:45', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2012, '网站图片上传', 2002, 5, '', NULL, 1, 0, 'F', '0', '0', 'nav:site:uploadSiteImg', '#', 'admin', '2021-01-07 00:09:06', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2013, '获取网站菜单下最大的排序', 2002, 6, '', NULL, 1, 0, 'F', '0', '0', 'nav:site:getSiteMaxOrderNum', '#', 'admin', '2021-01-07 00:09:30', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2014, '网站设置', 1, 0, 'webConfig', 'system/web/config/index', 1, 0, 'C', '0', '0', 'system:webConfig:getWebConfig', 'website', 'admin', '2021-02-28 17:32:25', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2015, '更新', 2014, 1, '', NULL, 1, 0, 'F', '0', '0', 'system:webConfig:updateWebConfig', '#', 'admin', '2021-02-28 17:33:19', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
@@ -1196,5 +1198,26 @@ CREATE TABLE `sys_user_role`  (
 -- ----------------------------
 INSERT INTO `sys_user_role` VALUES (1, 1);
 INSERT INTO `sys_user_role` VALUES (2, 2);
+
+-- ----------------------------
+-- Table structure for sys_web_config
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_web_config`;
+CREATE TABLE `sys_web_config`  (
+  `web_config_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键id',
+  `about_web_description` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '关于本站描述',
+  `about_web_email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '关于本站邮箱',
+  `about_web_content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci COMMENT '关于本站内容',
+  `create_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '创建者',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_by` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '更新者',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`web_config_id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '网站配置' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_web_config
+-- ----------------------------
+INSERT INTO `sys_web_config` VALUES (1, '这个导航网站来源于格姗知识圈导航的开源项目。如果你有更好的想法，可以通过左边的邮箱与我联系。如果喜欢本站，可以分享给其他人，或者设置为主页，这是对我最大的支持！', '497301391@qq.com', '<p>这是一个导航网站,收入了大部分常用的网站，希望能够解决到你频繁收藏网站的烦恼！</p>\r\n<p>显然，这是一个开源项目，主要放一些自己经常用到的网站。</p>\r\n<p>开源项目来源：<a href=\"https://gitee.com/geshanzsq/geshanzsq-nav\" target=\"_blank\" rel=\"noopener\">https://gitee.com/geshanzsq/geshanzsq-nav</a></>', 'admin', '2021-02-28 17:25:43', 'admin', '2021-02-28 17:32:44');
 
 SET FOREIGN_KEY_CHECKS = 1;

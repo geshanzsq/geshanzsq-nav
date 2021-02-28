@@ -38,6 +38,21 @@ public class FrontMenuController extends BaseController {
         return ajaxResult;
     }
 
+    /**
+     * 获取导航菜单
+     * @return
+     */
+    @GetMapping("/getFrontMenu")
+    public AjaxResult getFrontMenu() {
+        AjaxResult ajaxResult = AjaxResult.success();
+        //菜单列表
+        List<FrontMenuVO> menuList = frontNavService.getSystemNavMenu();
+        // 去除没有网站的菜单
+        frontNavService.getSystemNavSite(menuList);
+        ajaxResult.put(FrontNavConstants.FRONT_MENU,menuList);
+        return ajaxResult;
+    }
+
 
     /**
      * 查询站点

@@ -65,6 +65,12 @@ export default {
     },
     // 瞄点定位
     handlePosition(id,menuName) {
+      let path = this.$route.path;
+      let aboutPath = '/about'
+      if (aboutPath === path) {
+        this.$router.push('/');
+        return;
+      }
       try {
         let e = document.querySelector('#' + id);
         //移动端

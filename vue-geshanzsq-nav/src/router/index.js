@@ -120,7 +120,7 @@ export const constantRoutes = [
   },
   {
     path: '/about',
-    component: (resolve) => require(['@/views/front/about'], resolve),
+    component: (resolve) => require(['@/views/front/about/index'], resolve),
     hidden: true,
     meta: { title: '关于本站' }
   },

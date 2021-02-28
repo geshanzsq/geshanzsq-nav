@@ -20,6 +20,16 @@ import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, 
 import Pagination from "@/components/Pagination";
 // 自定义表格工具扩展
 import RightToolbar from "@/components/RightToolbar"
+// 代码高亮插件
+import hljs from 'highlight.js'
+//样式文件,这里我选的是sublime样式，文件里面还有其他样式可供选择
+import 'highlight.js/styles/monokai-sublime.css'
+Vue.directive('highlight',function (el) {
+  let blocks = el.querySelectorAll('pre code');
+  blocks.forEach((block)=>{
+    hljs.highlightBlock(block)
+  })
+})
 
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
