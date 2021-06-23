@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geshanzsq.nav.mapper.NavCommentMapper">
+    
+    <resultMap type="NavComment" id="NavCommentResult">
+        <result property="commentId"    column="comment_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="commentContent"    column="comment_content"    />
+        <result property="sticky"    column="sticky"    />
+        <result property="nickName"    column="nick_name"    />
+        <result property="email"    column="email"    />
+        <result property="reason"    column="reason"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="status"    column="status"    />
+    </resultMap>
+
+    <resultMap type="FrontCommentVo" id="FrontComment">
+        <result property="nickName"    column="nick_name"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="commentId"    column="comment_id"    />
+        <result property="parentId"    column="parent_id"    />
+        <result property="commentContent"    column="comment_content"    />
+        <result property="sticky"    column="sticky"    />
+        <result property="commentTime"    column="comment_time"    />
+        <result property="webMaster"    column="web_master"    />
+    </resultMap>
+
+    <sql id="selectNavCommentVo">
+        select comment_id, parent_id, comment_content, sticky, nick_name, email, reason, create_time, update_time, create_by, update_by, status from nav_comment
+    </sql>
+
+    <select id="selectNavCommentList" parameterType="NavComment" resultMap="NavCommentResult">
+        <include refid="selectNavCommentVo"/>
+        <where>  
+            <if test="commentContent != null  and commentContent != ''"> and comment_content = #{commentContent}</if>
+            <if test="nickName != null  and nickName != ''"> and nick_name like concat('%', #{nickName}, '%')</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectNavCommentById" parameterType="Long" resultMap="NavCommentResult">
+        <include refid="selectNavCommentVo"/>
+        where comment_id = #{commentId}
+    </select>
+        
+    <insert id="insertNavComment" parameterType="NavComment" useGeneratedKeys="true" keyProperty="commentId">
+        insert into nav_comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">parent_id,</if>
+            <if test="commentContent != null and commentContent != ''">comment_content,</if>
+            <if test="sticky != null">sticky,</if>
+            <if test="nickName != null">nick_name,</if>
+            <if test="email != null">email,</if>
+            <if test="reason != null">reason,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="status != null">status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentId != null">#{parentId},</if>
+            <if test="commentContent != null and commentContent != ''">#{commentContent},</if>
+            <if test="sticky != null">#{sticky},</if>
+            <if test="nickName != null">#{nickName},</if>
+            <if test="email != null">#{email},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="status != null">#{status},</if>
+         </trim>
+    </insert>
+
+    <update id="updateNavComment" parameterType="NavComment">
+        update nav_comment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="commentContent != null and commentContent != ''">comment_content = #{commentContent},</if>
+            <if test="sticky != null">sticky = #{sticky},</if>
+            <if test="nickName != null">nick_name = #{nickName},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="status != null">status = #{status},</if>
+        </trim>
+        where comment_id = #{commentId}
+    </update>
+
+    <delete id="deleteNavCommentById" parameterType="Long">
+        delete from nav_comment where comment_id = #{commentId}
+    </delete>
+
+    <delete id="deleteNavCommentByIds" parameterType="String">
+        delete from nav_comment where comment_id in 
+        <foreach item="commentId" collection="array" open="(" separator="," close=")">
+            #{commentId}
+        </foreach>
+    </delete>
+
+    <!-- 获取前台评论 -->
+    <select id="selectFrontComment" parameterType="NavComment" resultMap="FrontComment">
+        SELECT
+        nc.comment_id,
+        nc.parent_id,
+        nc.comment_content,
+        nc.create_time comment_time,
+        nc.sticky,
+        if ( nc.create_by is null, nc.nick_name,su.nick_name) nick_name,
+        if ( su.user_id > 0, true,false) web_master,
+        su.avatar
+        FROM
+        nav_comment nc
+        LEFT JOIN sys_user su ON nc.create_by = su.user_name
+        <where>
+            <if test="status != null">
+                and nc.status = #{status}
+            </if>
+        </where>
+        order by nc.sticky desc, comment_time desc , nc.comment_id asc
+    </select>
+    
+</mapper>

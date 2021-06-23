@@ -31,3 +31,11 @@ export function getNavAbout() {
     method: 'get'
   })
 }
+
+// 获取评论
+export function getCommentList() {
+  return request({
+    url: '/frontNav/comment/getCommentList',
+    method: 'get'
+  })
+}

@@ -36,6 +36,9 @@
               <div style="border-left: 5px solid #eee;padding: 9px 18px;color: #979898;">{{webConfig.aboutWebDescription}}</div>
             </el-col>
           </el-row>
+
+          <!-- 评论 -->
+          <comment style="margin-top: 50px"/>
         </el-card>
       </div>
     </front-home>
@@ -45,6 +48,7 @@
 <script>
   import FooterBottom from '@/components/FooterBottom'
   import FrontHome from '@/views/front/FrontHome';
+  import Comment from './components/Comment'
 
   import { getNavAbout, getFrontMenu } from '@/api/front/frontNav'
 
@@ -53,7 +57,7 @@
 
   export default {
     name: "about",
-    components: {FooterBottom,FrontHome},
+    components: {FooterBottom,FrontHome,Comment},
     data() {
       return {
         menuList: [],

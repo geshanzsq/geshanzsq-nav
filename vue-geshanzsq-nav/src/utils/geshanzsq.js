@@ -45,6 +45,32 @@ export function parseTime(time, pattern) {
 	return time_str
 }
 
+// 日期格式化
+export function parseDate(time, fmt) {
+  let date = new Date(time);
+  if (/(y+)/.test(fmt)) {
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+  }
+  let o = {
+    'M+': date.getMonth() + 1,
+    'd+': date.getDate(),
+    'h+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds()
+  };
+  for (let k in o) {
+    if (new RegExp(`(${k})`).test(fmt)) {
+      let str = o[k] + '';
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+    }
+  }
+  return fmt;
+}
+
+function padLeftZero(str) {
+  return ('00' + str).substr(str.length);
+}
+
 // 表单重置
 export function resetForm(refName) {
 	if (this.$refs[refName]) {
@@ -157,4 +183,29 @@ export function handleTree(data, id, parentId, children, rootId) {
 export function isMobile(){
   let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
   return flag;
+}
+
+// 瞄点定位
+export function scrollTop(number, time) {
+  if (!time) {
+    document.body.scrollTop = document.documentElement.scrollTop = number;
+    return number;
+  }
+  // 设置循环的间隔时间，值越小消耗性能越高
+  const spacingTime = 20;
+  // 计算循环的次数
+  let spacingInex = time / spacingTime;
+  // 获取当前滚动条位置
+  let nowTop = document.body.scrollTop + document.documentElement.scrollTop;
+  // 计算每次滑动的距离
+  let everTop = (number - nowTop) / spacingInex;
+  let scrollTimer = setInterval(() => {
+    if (spacingInex > 0) {
+      spacingInex--;
+      this.scrollTop(nowTop += everTop);
+    } else {
+      // 清除计时器
+      clearInterval(scrollTimer);
+    }
+  }, time);
 }

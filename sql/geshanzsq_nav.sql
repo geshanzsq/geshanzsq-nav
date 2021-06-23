@@ -11,7 +11,7 @@
  Target Server Version : 80018
  File Encoding         : 65001
 
- Date: 28/02/2021 19:31:30
+ Date: 24/06/2021 00:47:11
 */
 
 SET NAMES utf8mb4;
@@ -72,6 +72,26 @@ CREATE TABLE `gen_table_column`  (
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   PRIMARY KEY (`column_id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '代码生成业务表字段' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for nav_comment
+-- ----------------------------
+DROP TABLE IF EXISTS `nav_comment`;
+CREATE TABLE `nav_comment`  (
+  `comment_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '评论id',
+  `parent_id` bigint(20) DEFAULT 0 COMMENT '父级id',
+  `comment_content` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '评论内容',
+  `sticky` tinyint(1) DEFAULT 0 COMMENT '是否置顶，0否，1是',
+  `nick_name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '昵称',
+  `email` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '邮箱',
+  `reason` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '不通过理由',
+  `create_time` datetime(0) DEFAULT NULL COMMENT '创建时间',
+  `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
+  `create_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '创建人',
+  `update_by` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '修改人',
+  `status` tinyint(1) NOT NULL DEFAULT 0 COMMENT '状态，0 待审核，1 通过，2 不通过',
+  PRIMARY KEY (`comment_id`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评论表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for nav_menu
@@ -739,6 +759,9 @@ INSERT INTO `sys_dict_data` VALUES (100, 1, '正常', '0', 'nav_menu_status', NU
 INSERT INTO `sys_dict_data` VALUES (101, 2, '停用', '1', 'nav_menu_status', NULL, NULL, 'N', '0', 'admin', '2021-01-07 00:14:22', '', NULL, '停用状态');
 INSERT INTO `sys_dict_data` VALUES (102, 1, '正常', '0', 'nav_site_status', NULL, NULL, 'N', '0', 'admin', '2021-01-07 00:16:16', '', NULL, '正常状态');
 INSERT INTO `sys_dict_data` VALUES (103, 2, '停用', '1', 'nav_site_status', NULL, NULL, 'N', '0', 'admin', '2021-01-07 00:16:34', '', NULL, '停用状态');
+INSERT INTO `sys_dict_data` VALUES (104, 1, '待审核', '0', 'nav_comment_status', NULL, NULL, 'N', '0', 'admin', '2021-06-24 00:45:58', '', NULL, '待审核专题');
+INSERT INTO `sys_dict_data` VALUES (105, 2, '通过', '1', 'nav_comment_status', NULL, NULL, 'N', '0', 'admin', '2021-06-24 00:46:09', '', NULL, '通过状态');
+INSERT INTO `sys_dict_data` VALUES (106, 3, '不通过', '2', 'nav_comment_status', NULL, NULL, 'N', '0', 'admin', '2021-06-24 00:46:23', '', NULL, '不通过状态');
 
 -- ----------------------------
 -- Table structure for sys_dict_type
@@ -773,6 +796,7 @@ INSERT INTO `sys_dict_type` VALUES (9, '操作类型', 'sys_oper_type', '0', 'ad
 INSERT INTO `sys_dict_type` VALUES (10, '系统状态', 'sys_common_status', '0', 'admin', '2021-01-03 11:04:12', '', NULL, '登录状态列表');
 INSERT INTO `sys_dict_type` VALUES (100, '导航菜单状态', 'nav_menu_status', '0', 'admin', '2021-01-07 00:13:29', '', NULL, '导航菜单状态列表');
 INSERT INTO `sys_dict_type` VALUES (101, '导航网站状态', 'nav_site_status', '0', 'admin', '2021-01-07 00:15:59', '', NULL, '导航网站状态列表');
+INSERT INTO `sys_dict_type` VALUES (102, '评论状态', 'nav_comment_status', '0', 'admin', '2021-06-24 00:45:25', '', NULL, '评论状态列表');
 
 -- ----------------------------
 -- Table structure for sys_logininfor
@@ -815,7 +839,7 @@ CREATE TABLE `sys_menu`  (
   `update_time` datetime(0) DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT '' COMMENT '备注',
   PRIMARY KEY (`menu_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2014 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2016 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '菜单权限表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of sys_menu
@@ -911,6 +935,10 @@ INSERT INTO `sys_menu` VALUES (2012, '网站图片上传', 2002, 5, '', NULL, 1,
 INSERT INTO `sys_menu` VALUES (2013, '获取网站菜单下最大的排序', 2002, 6, '', NULL, 1, 0, 'F', '0', '0', 'nav:site:getSiteMaxOrderNum', '#', 'admin', '2021-01-07 00:09:30', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2014, '网站设置', 1, 0, 'webConfig', 'system/web/config/index', 1, 0, 'C', '0', '0', 'system:webConfig:getWebConfig', 'website', 'admin', '2021-02-28 17:32:25', '', NULL, '');
 INSERT INTO `sys_menu` VALUES (2015, '更新', 2014, 1, '', NULL, 1, 0, 'F', '0', '0', 'system:webConfig:updateWebConfig', '#', 'admin', '2021-02-28 17:33:19', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2016, '评论管理', 2000, 3, 'comment', 'nav/comment/index', 1, 0, 'C', '0', '0', 'nav:comment:list', 'education', 'admin', '2021-06-24 00:40:51', 'admin', '2021-06-24 00:41:27', '');
+INSERT INTO `sys_menu` VALUES (2017, '通过', 2016, 1, '', NULL, 1, 0, 'F', '0', '0', 'nav:commment:pass', '#', 'admin', '2021-06-24 00:42:26', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2018, '不通过', 2016, 2, '', NULL, 1, 0, 'F', '0', '0', 'nav:commment:noPass', '#', 'admin', '2021-06-24 00:42:44', '', NULL, '');
+INSERT INTO `sys_menu` VALUES (2019, '置顶', 2016, 3, '', NULL, 1, 0, 'F', '0', '0', 'nav:commment:sticky', '#', 'admin', '2021-06-24 00:43:06', '', NULL, '');
 
 -- ----------------------------
 -- Table structure for sys_notice
