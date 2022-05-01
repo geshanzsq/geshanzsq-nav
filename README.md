@@ -134,7 +134,53 @@ geshanzsq-nav.sql
 
 ![image-20210106210239126](https://i.loli.net/2021/01/06/rR7LAk8WSUJysXK.png)
 
+## 项目部署
 
+最近有挺多小伙伴不知道如何部署到服务器，小格子给大家简单的介绍一下。
+
+### 安装相关环境
+
+首先需要有一台服务器（建议 Linux 系统），安装 JDK1.8、MySQL 数据库、Redis 缓存、Nginx 代理。不会安装的请看这几篇文章。
+
+[Linux 安装 MySQL 8 数据库](https://geshanzsq.com/article/34)
+
+[Linux 安装 Nginx 代理](https://geshanzsq.com/article/65)
+
+前端打包后会生成 dist，上传到服务器对应目录。后端打包为 Jar 包，上传到服务器对应目录并执行下面命令：
+
+```shell
+nohup java -jar geshanzsq-nav-admin.jar &
+```
+
+### Nginx 代理配置
+
+为了保证前端和后端不存在跨域问题，需要部署在 Nginx 进行配置：
+
+```nginx
+server {
+    listen       80;
+    server_name  localhost;
+    
+    # 前端项目配置
+    location / {
+        # root 后面为项目存在目录
+        root /home/project/geshanzsq-nav/dist;
+        index index.html index.htm;
+        try_files $uri $uri/ /index.html;
+   }
+    
+   # 后端项目配置
+   location /prod-api/ {
+        # 项目 IP 地址和端口，如果不在一台服务器，请填写对应的 IP；如果后端端口修改后，请填写修改后的端口
+        proxy_pass http://127.0.0.1:8080/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header REMOTE-HOST $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  } 
+}
+
+```
 
 ## License
 
