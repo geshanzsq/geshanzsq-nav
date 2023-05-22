@@ -1,11 +1,9 @@
+const icons = []
+const svgRequire = require.context('@/assets/icons/svg', false, /\.svg$/)
 
-const req = require.context('../../assets/icons/svg', false, /\.svg$/)
-const requireAll = requireContext => requireContext.keys()
-
-const re = /\.\/(.*)\.svg/
-
-const icons = requireAll(req).map(i => {
-  return i.match(re)[1]
+svgRequire.keys().forEach((svgIcon) => {
+  const path = svgIcon.split('./')[1].split('.svg')[0]
+  icons.push(path)
 })
 
 export default icons

@@ -1,14 +1,14 @@
 
 
-# 格姗知识圈导航网站
+# 格姗导航网站
 
-一个基于 Spring Boot + Vue 前后端分离的导航网站系统，在线演示地址：[https://gesdh.cn](https://gesdh.cn)。由于工作和个人能力原因，部分技术都是边学习边开发，特别是前端（工作中是后端开发），基本上不熟悉，代码质量和设计，请大家多多指教（毕竟都 2023 年了，还被领导当面说月薪只值 3500 的人，哈哈哈）。
+一个基于 Spring Boot、MyBatis Plus、Vue3、Element Plus 前后端分离的导航网站系统，在线演示地址：[https://gesdh.cn](https://gesdh.cn)。由于工作和个人能力原因，部分技术都是边学习边开发，特别是前端（工作中是后端开发），基本上不熟悉，代码质量和设计，请大家多多指教
 
 欢迎加群一起学习交流技术。
 
 QQ 群交流：673465233
 
-微信群：添加我微信：geshanintell，备注：格姗知识圈导航
+微信群：添加我微信：geshanintell，备注：格姗导航
 
 码云下载地址（国内推荐）：[https://gitee.com/geshanzsq/geshanzsq-nav](https://gitee.com/geshanzsq/geshanzsq-nav)
 
@@ -16,39 +16,58 @@ Github 下载地址：[https://github.com/geshanzsq/geshanzsq-nav](https://githu
 
 ## 简介
 
-本项目是一个网站导航，网站内容均由[小格子](https://geshanzsq.com/)本人收集并整理。前端基于 Vue，后端使用 Spring Boot。目前只是基础版，没有开源自定义导航，大家可以根据此开源项目进行自定义导航开发。
+本项目是一个网站导航，网站内容均由[小格子](https://geshanzsq.com/)本人收集并整理。前端基于 Vue3，后端使用 Spring Boot。目前只是基础版，没有开源自定义导航，大家可以根据此开源项目进行自定义导航开发。如果对自定义导航感兴趣，可联系小格子购买自定义导航源码
 
-- 前端采用 Vue、Element UI。
-- 后端采用 Spring Boot、Spring Security、Redis & Jwt。
-- 权限认证使用 Jwt，支持多终端认证系统。
-- 支持加载动态权限菜单，多方式轻松权限控制。
-- 高效率开发，使用代码生成器可以一键生成前后端代码。
+- 前端采用 Vue3、Element Plus。
+- 后端采用 Spring Boot、MyBatis Plus、Spring Security、Redis。
+- 后台管理支持加载动态权限菜单，权限修改立即生效，不用再退出重新登录。
+- 高效率开发，只需要简单的 @Query 注解即可实现分页和列表接口。
 
 ## 内置功能
 
-1. 用户管理：用户是系统操作者，该功能主要完成系统用户配置。
-2. 部门管理：配置系统组织机构（公司、部门、小组），树结构展现支持数据权限。
-3. 菜单管理：配置系统菜单，操作权限，按钮权限标识等。
-4. 角色管理：角色菜单权限分配、设置角色按机构进行数据范围权限划分。
-5. 导航管理：主要对导航的菜单和网站进行管理。
-6. 字典管理：对系统中经常使用的一些较为固定的数据进行维护。
-7. 参数管理：对系统动态配置常用参数。
-8. 通知公告：系统通知公告信息发布维护。
-9. 操作日志：系统正常操作日志记录和查询；系统异常信息日志记录和查询。
-10. 登录日志：系统登录日志记录查询包含登录异常。
-11. 在线用户：当前系统中活跃用户状态监控。
-12. 定时任务：在线（添加、修改、删除)任务调度包含执行结果日志。
-13. 代码生成：前后端代码的生成（java、html、xml、sql）支持CRUD下载 。
-14. 系统接口：根据业务代码自动生成相关的api接口文档。
-15. 服务监控：监视当前系统CPU、内存、磁盘、堆栈等相关信息。
-16. 在线构建器：拖动表单元素生成相应的HTML代码。
-17. 连接池监视：监视当前系统数据库连接池状态，可进行分析SQL找出系统性能瓶颈。
+1. 用户管理：用户是整个系统操作人，主要完成系统用户配置
+2. 角色管理：配置角色菜单、分配用户角色等。
+3. 菜单管理：配置系统菜单、按钮权限标识、关联 API 等。
+4. 数据字典：系统中经常使用的一些较为固定的数据进行维护。
+5. API 管理：后端所有接口地址、请求方式等。
+6. 参数配置：系统动态配置常用参数。
+7. 登录日志：系统登录日志记录查询。
+8. 操作日志：系统操作日志记录和查询。
+9. 导航管理：分类管理、网站管理、评论管理
 
 ## 运行
 
 前端：需要搭建 Vue 脚手架环境，如：安装 Node.js、Vue-cli 。
 
 后端：需要搭建 Java 开发环境。此外，还需要安装 MySQL 数据库（推荐 MySQL 8）、Redis。
+
+#### 相关环境版本：
+
+| 软件名称 | 版本号    |
+| -------- | --------- |
+| Node     | 16.16.0   |
+| NPM      | 6.14.15   |
+| JDK      | 1.8.0_202 |
+| MySQL    | 8.0.17    |
+| Redis    | 5.0.9     |
+| Nginx    | 1.9.9     |
+
+### 项目目录结构说明
+
+```yml
+geshanzsq-nav-admin: 后台管理模块
+    geshanzsq-nav-admin-application: 后台管理应用启动和导航业务
+    geshanzsq-nav-admin-system: 后台管理的系统管理模块
+geshanzsq-nav-common: 通用模块
+    geshanzsq-nav-common-core: 核心通用模块，包含一些通用工具类
+    geshanzsq-nav-common-framework: 通用框架模块
+    geshanzsq-nav-common-rate-limiter: 通用限流模块
+    geshanzsq-nav-common-log: 通用日志模块
+    geshanzsq-nav-common-redis: 通用缓存模块
+    geshanzsq-nav-common-security: 通用安全框架模块
+    geshanzsq-nav-common-swagger: 通用接口文档模块
+vue-geshanzsq-nav: 前端模块
+```
 
 #### 前端运行
 
@@ -63,76 +82,82 @@ npm install
 npm install --registry=https://registry.npm.taobao.org
 
 # 启动服务
-npm run dev
+npm run serve
 ```
 
-浏览器访问 http://localhost:80
+浏览器访问 [http://127.0.0.1:8023](http://127.0.0.1:8023)
 
 #### 后端运行
 
-新建数据库，导入数据：
+新建数据库，导入 `sql/geshanzsq_nav.sql ` 数据库脚本
 
-```
-geshanzsq-nav.sql
-```
-
-在 geshanzsq-nav-admin 模块下，有三个配置文件：
+在 `geshanzsq-nav/geshanzsq-nav-admin/geshanzsq-nav-admin-application`应用启动模块下，有三个配置文件：
 
 | application.yml            | application-dev.yml                               | application-prod.yml                              |
 | -------------------------- | ------------------------------------------------- | ------------------------------------------------- |
 | 主要配置文件，配置公共信息 | 开发环境，配置 MySQL 数据库、Redis 缓存、文件路径 | 生产环境，配置 MySQL 数据库、Redis 缓存、文件路径 |
 
-![image-20210104230828122](https://i.loli.net/2021/01/04/PRSzfusxb1dOo5A.png)
+上述配置完成后，启动后台管理 `geshanzsq-nav-admin-application` 应用
 
 在开发环境的 application-dev.yml 配置文件中，配置 MySQL 数据库连接信息、Redis 缓存、网站初始化图片。
 
-![image-20210104231437985](https://i.loli.net/2021/01/04/D2TC8js5zHv9VIB.png)
+![导航网站-数据库配置信息](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/02de4f3e-7e5c-4370-acea-3701c243759d.png)
 
-![image-20210104231513623](https://i.loli.net/2021/01/04/hgUZjcb7CGtF2ne.png)
+![导航网站-文件上传配置信息](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/a514cec3-084d-41b2-ab64-1585c962a8ba.png)
 
-![image-20210104231626229](https://i.loli.net/2021/01/04/ozpRGUjWhk6gv7c.png)
+**注：** 需要把目录【网站图片】下的 profile.zip 解压到配置文件的文件路径中，否则内置的网站数据加载不出图片。比如我的是：`D:/data/geshanzsq-nav/profile`，解压后的文件路径如图所示，如果网站图片加载失败，请检查图片路径是否正确。
 
-**注：** 需要把目录【网站图片】下的 profile.zip 解压到配置文件的文件路径中，否则内置的网站数据加载不出图片。比如我的是：E:/home/geshanzsq-nav/uploadPath/profile
+![导航网站-图片路径](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/cd09da46-c2a8-476e-908c-ae75998c7ef9.png)
 
 ##### 生产环境
 
-配置对应的 MySQL 数据库、Redis 环境、文件路径。在 application.yml 配置文件中，把 dev 改为 prod。
+在 application.yml 配置文件中，把 dev 改为 prod；并在 application-prod.yml 配置对应的 MySQL 数据库、Redis 环境、文件路径。
 
-![image-20210104232641437](https://i.loli.net/2021/01/04/cepE3wfOSU97xRY.png)
+### 后端技术
+
+| 技术            | 说明                       | 官网链接                                                     |
+| --------------- | -------------------------- | ------------------------------------------------------------ |
+| Spring Boot     | MVC 框架                   | [https://spring.io/projects/spring-boot](https://spring.io/projects/spring-boot) |
+| Spring Security | 认证和授权安全框架         | [https://spring.io/projects/spring-security](https://spring.io/projects/spring-security) |
+| MyBatis Plus    | ORM 框架                   | [https://mp.baomidou.com](https://mp.baomidou.com)           |
+| Knife4j         | 接口文档管理框架           | [https://doc.xiaominfo.com](https://doc.xiaominfo.com)       |
+| Redis           | 缓存框架                   | [https://redis.io](https://redis.io)                         |
+| Lombok          | 对象封装工具               | [https://github.com/projectlombok/lombok](https://github.com/projectlombok/lombok) |
+| Nginx           | Http 和反向代理 Web 服务器 | [http://nginx.org](http://nginx.org)                         |
+
+### 前端技术
+
+| 说明                   | 官网                                                         |
+| ---------------------- | ------------------------------------------------------------ |
+| 前端框架               | [https://vuejs.org](https://vuejs.org)                       |
+| 路由框架               | [https://router.vuejs.org](https://router.vuejs.org)         |
+| 全局状态管理框架       | [https://vuex.vuejs.org](https://vuex.vuejs.org)             |
+| 前端 Element Plus 框架 | [https://element-plus.gitee.io](https://element-plus.gitee.io) |
+| 前端 Http 框架         | [https://github.com/axios/axios](https://github.com/axios/axios) |
+| 富文本编辑器           | [https://www.wangeditor.com](https://www.wangeditor.com)     |
+| 代码语法高亮插件       | [https://github.com/highlightjs/highlight.js](https://github.com/highlightjs/highlight.js) |
 
 ## 使用
 
-导航首页：http://127.0.0.1
+导航首页：[http://127.0.0.1:8023](http://127.0.0.1:8023)
 
-登录地址：http://127.0.0.1/login
+登录地址：[http://127.0.0.1:8023/login](http://127.0.0.1:8023.login)
 
 默认用户：admin
 
-默认密码：admin123
+默认密码：123456
 
 ## 演示图
 
-![image-20210106205920036](https://i.loli.net/2021/01/06/6mtepGbF5IVWELz.png)
+![导航网站-首页.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/32f77495-f788-4889-acb1-417760f89f4c.png)
 
+![导航网站-首页-格式转换.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/558ab7c3-3703-43c9-af3b-fd7ab00b57aa.png)
 
+![导航网站-分类管理.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/84a02a68-5b1e-4429-9f5f-f09d8c4f00bc.png)
 
-![image-20210106205947129](https://i.loli.net/2021/01/06/O5c8ApDjZX9VMa4.png)
+![导航网站-网站管理.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/d9f336e5-1454-459e-9431-3d50fa582e13.png)
 
-
-
-![image-20210106210030366](https://i.loli.net/2021/01/06/j3eVRAKpShXD17C.png)
-
-
-
-![image-20210106210109976](https://i.loli.net/2021/01/06/X3I6VyRYOTMJW7H.png)
-
-
-
-![image-20210106210147466](https://i.loli.net/2021/01/06/uItNSPi4Vzj6Zqy.png)
-
-
-
-![image-20210106210239126](https://i.loli.net/2021/01/06/rR7LAk8WSUJysXK.png)
+![导航网站-网站配置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/3efd39b9-6cc5-453e-9a64-e07e6f8ad1de.png)
 
 ## 项目部署
 
@@ -164,7 +189,7 @@ server {
     # 前端项目配置
     location / {
         # root 后面为项目存在目录
-        root /home/project/geshanzsq-nav/dist;
+        root /data/project/geshanzsq-nav/dist;
         index index.html index.htm;
         try_files $uri $uri/ /index.html;
    }
@@ -184,7 +209,7 @@ server {
 
 ## License
 
-Copyright © 2020-2022 **[格姗知识圈导航](https://gesdh.cn)** Released under the **MIT License**.
+Copyright © 2020-2023 **[格姗导航](https://gesdh.cn)** Released under the **Apache-2.0**.
 
 > 注：本导航开源的目的是大家能够在本站的基础之上有所启发，做出更多新的东西，比如自定义导航。并不是让大家照搬所有代码。 如果你使用这个开源项目，请**注明**本项目开源地址。
 

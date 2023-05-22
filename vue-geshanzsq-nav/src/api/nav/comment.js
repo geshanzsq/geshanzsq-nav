@@ -1,87 +1,45 @@
 import request from '@/utils/request'
 
-// 查询评论列表
-export function listComment(query) {
+export function page(params) {
   return request({
-    url: '/nav/comment/list',
+    url: '/nav/comment/page',
     method: 'get',
-    params: query
+    params
   })
 }
 
-// 查询评论详细
-export function getComment(commentId) {
+export function pass(ids) {
   return request({
-    url: '/nav/comment/' + commentId,
-    method: 'get'
+    url: `/nav/comment/pass/${ids}`,
+    method: 'put'
   })
 }
 
-// 新增评论
-export function addComment(data) {
+export function reject(data) {
   return request({
-    url: '/nav/comment/addComment',
-    method: 'post',
-    data: data
-  })
-}
-
-// 修改评论
-export function updateComment(data) {
-  return request({
-    url: '/nav/comment',
+    url: '/nav/comment/reject',
     method: 'put',
-    data: data
+    data
   })
 }
 
-// 删除评论
-export function delComment(commentId) {
+export function sticky(id) {
   return request({
-    url: '/nav/comment/' + commentId,
+    url: `/nav/comment/sticky/${id}`,
+    method: 'put'
+  })
+}
+
+export function cancleSticky(id) {
+  return request({
+    url: `/nav/comment/cancelSticky/${id}`,
+    method: 'put'
+  })
+}
+
+export function remove(ids) {
+  return request({
+    url: `/nav/comment/delete/${ids}`,
     method: 'delete'
-  })
-}
-
-// 导出评论
-export function exportComment(query) {
-  return request({
-    url: '/nav/comment/export',
-    method: 'get',
-    params: query
-  })
-}
-
-// 通过评论
-export function passComment(data) {
-  return request({
-    url: '/nav/comment/passComment',
-    method: 'put',
-    data: data
-  })
-}
-
-// 不通过评论
-export function noPassComment(data) {
-  return request({
-    url: '/nav/comment/noPassComment',
-    method: 'put',
-    data: data
-  })
-}
-
-// 置顶评论
-export function stickyComment(commentId) {
-  return request({
-    url: '/nav/comment/stickyComment?commentId=' + commentId,
-    method: 'put'
-  })
-}
-
-// 取消评论
-export function cancelStickyComment(commentId) {
-  return request({
-    url: '/nav/comment/cancelStickyComment?commentId=' + commentId,
-    method: 'put'
   })
 }

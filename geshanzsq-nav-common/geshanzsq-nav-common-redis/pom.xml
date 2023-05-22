@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>geshanzsq-nav-common</artifactId>
+        <groupId>com.geshanzsq</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>geshanzsq-nav-common-redis</artifactId>
+    <name>geshanzsq-nav-common-redis</name>
+    <description>redis 缓存</description>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <!-- 使用 Redis 缓存需要引用 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+
+        <!-- 通用核心模块 -->
+        <dependency>
+            <groupId>com.geshanzsq</groupId>
+            <artifactId>geshanzsq-nav-common-core</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

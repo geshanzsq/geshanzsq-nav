@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.system.api.mapper.SysApiMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.system.api.vo.SysApiVO" >
+        <result column="id" property="id" />
+        <result column="api_name" property="apiName" />
+        <result column="api_url" property="apiUrl" />
+        <result column="api_method" property="apiMethod" />
+        <result column="fk_api_category_id" property="apiCategoryId" />
+        <result column="sort" property="sort" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="gmt_time" property="gmtCreate" />
+        <result column="fk_create_user_id" property="createUserId" />
+        <result column="gmt_modify" property="gmtModify" />
+        <result column="fk_modify_user_id" property="modifyUserId" />
+    </resultMap>
+
+    <resultMap id="SysMenuAuthApiMap" type="com.geshanzsq.admin.system.menu.vo.SysMenuAuthApiVO" >
+        <result column="api_id" property="apiId" />
+        <result column="api_name" property="apiName" />
+        <result column="fk_api_category_id" property="apiCategoryId" />
+        <result column="api_category_name" property="apiCategoryName" />
+    </resultMap>
+
+    <!-- 通过菜单 id 列表获取接口 -->
+    <select id="getApiByMenuIds" resultMap="BaseResultMap">
+        select distinct api.api_url, api.api_method from sys_api_menu ar
+        inner join sys_api api on ar.fk_api_id = api.id
+        <where>
+            <if test="status != null and status != ''">
+                and api.status = #{status}
+            </if>
+            <if test="menuIds != null and menuIds.size > 0">
+                and ar.fk_menu_id in
+                <foreach collection="menuIds" item="menuId" open="(" separator="," close=")">
+                    #{menuId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!-- 获取最大排序 -->
+    <select id="selectMaxSortByCategoryId" parameterType="Long" resultType="java.lang.Integer">
+        select max(sort) from sys_api where fk_api_category_id = #{apiCategoryId}
+    </select>
+
+    <!-- 获取分配的 API 接口 -->
+    <select id="selectAuthApiByMenuId" parameterType="Long" resultMap="SysMenuAuthApiMap">
+        select a.id as api_id, a.api_name, a.fk_api_category_id as api_category_id, ac.category_name as api_category_name
+        from sys_api_menu am
+        inner join sys_api a on am.fk_api_id = a.id
+        left join sys_api_category ac on a.fk_api_category_id = ac.id
+        where am.fk_menu_id = #{menuId}
+    </select>
+
+</mapper>

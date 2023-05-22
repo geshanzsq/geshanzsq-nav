@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.system.dictionary.mapper.SysDictionaryMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.system.dictionary.vo.SysDictionaryVO" >
+        <result column="id" property="id" />
+        <result column="dictionary_name" property="dictionaryName" />
+        <result column="dictionary_code" property="dictionaryCode" />
+        <result column="sort" property="sort" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="gmt_time" property="gmtCreate" />
+        <result column="fk_create_user_id" property="createUserId" />
+        <result column="gmt_modify" property="gmtModify" />
+        <result column="fk_modify_user_id" property="modifyUserId" />
+    </resultMap>
+
+    <resultMap id="DictionaryInfoMap" type="com.geshanzsq.admin.system.dictionary.vo.DictionaryInfoVO" >
+        <result column="id" property="id" />
+        <result column="dictionary_name" property="dictionaryName" />
+        <result column="dictionary_code" property="dictionaryCode" />
+        <collection property="dictionaryDataList" javaType="java.util.List" resultMap="DictionaryDataInfoMap"/>
+    </resultMap>
+
+    <resultMap id="DictionaryDataInfoMap" type="com.geshanzsq.admin.system.dictionary.vo.DictionaryDataInfoVO">
+        <result column="dictionary_data_id" property="id" />
+        <result column="dictionary_label" property="dictionaryLabel" />
+        <result column="dictionary_value" property="dictionaryValue" />
+        <result column="class_type" property="classType" />
+    </resultMap>
+
+    <!-- 获取最大排序 -->
+    <select id="selectMaxSort" resultType="java.lang.Integer">
+        select max(sort) from sys_dictionary
+    </select>
+
+    <!-- 获取所有字典详细信息 -->
+    <select id="getAllDictionaryInfo" parameterType="Integer" resultMap="DictionaryInfoMap">
+        select
+            d.id,
+            d.dictionary_name,
+            d.dictionary_code,
+            dd.id as dictionary_data_id,
+            dd.dictionary_label,
+            dd.dictionary_value,
+            dd.class_type
+        from
+            sys_dictionary d
+        inner join sys_dictionary_data dd on d.id = dd.fk_dictionary_id
+        <where>
+            <if test="status != null and status != ''">
+                and d.status = #{status} and dd.status = #{status}
+            </if>
+        </where>
+        order by
+            d.sort asc,
+            d.id asc,
+            dd.sort asc,
+            dd.id asc
+    </select>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>geshanzsq-nav-common</artifactId>
+        <groupId>com.geshanzsq</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>geshanzsq-nav-common-log</artifactId>
+    <name>geshanzsq-nav-common-log</name>
+    <description>日志模块</description>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <!-- 框架模块 -->
+        <dependency>
+            <groupId>com.geshanzsq</groupId>
+            <artifactId>geshanzsq-nav-common-framework</artifactId>
+        </dependency>
+
+        <!-- 安全框架模块 -->
+        <dependency>
+            <groupId>com.geshanzsq</groupId>
+            <artifactId>geshanzsq-nav-common-security</artifactId>
+        </dependency>
+
+        <!-- aop 切面 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+        <!-- 解析客户端操作系统、浏览器等 -->
+        <dependency>
+            <groupId>eu.bitwalker</groupId>
+            <artifactId>UserAgentUtils</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

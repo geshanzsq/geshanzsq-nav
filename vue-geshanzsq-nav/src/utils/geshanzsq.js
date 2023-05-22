@@ -1,151 +1,208 @@
-﻿/**
+/**
  * 通用js方法封装处理
  */
 
-const baseURL = process.env.VUE_APP_BASE_API
+import store from '@/store'
+import { isHttp } from './validate'
 
-// 日期格式化
-export function parseTime(time, pattern) {
-	if (arguments.length === 0 || !time) {
-		return null
-	}
-	const format = pattern || '{y}-{m}-{d} {h}:{i}:{s}'
-	let date
-	if (typeof time === 'object') {
-		date = time
-	} else {
-		if ((typeof time === 'string') && (/^[0-9]+$/.test(time))) {
-			time = parseInt(time)
-		} else if (typeof time === 'string') {
-			time = time.replace(new RegExp(/-/gm), '/');
-		}
-		if ((typeof time === 'number') && (time.toString().length === 10)) {
-			time = time * 1000
-		}
-		date = new Date(time)
-	}
-	const formatObj = {
-		y: date.getFullYear(),
-		m: date.getMonth() + 1,
-		d: date.getDate(),
-		h: date.getHours(),
-		i: date.getMinutes(),
-		s: date.getSeconds(),
-		a: date.getDay()
-	}
-	const time_str = format.replace(/{(y|m|d|h|i|s|a)+}/g, (result, key) => {
-		let value = formatObj[key]
-		// Note: getDay() returns 0 on Sunday
-		if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
-		if (result.length > 0 && value < 10) {
-			value = '0' + value
-		}
-		return value || 0
-	})
-	return time_str
-}
-
-// 日期格式化
-export function parseDate(time, fmt) {
-  let date = new Date(time);
-  if (/(y+)/.test(fmt)) {
-    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length));
+// @description 格式化时间
+export function parseTime(time, cFormat) {
+  if (time === undefined || time === '' || time === null) {
+    return ''
   }
-  let o = {
-    'M+': date.getMonth() + 1,
-    'd+': date.getDate(),
-    'h+': date.getHours(),
-    'm+': date.getMinutes(),
-    's+': date.getSeconds()
-  };
-  for (let k in o) {
-    if (new RegExp(`(${k})`).test(fmt)) {
-      let str = o[k] + '';
-      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? str : padLeftZero(str));
+  if (arguments.length === 0) {
+    return null
+  }
+  const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
+  let date
+  if (typeof time === 'object') {
+    date = time
+  } else {
+    if (typeof time === 'string' && /^[0-9]+$/.test(time)) {
+      time = parseInt(time)
     }
+    if (typeof time === 'number' && time.toString().length === 10) {
+      time = time * 1000
+    }
+    date = new Date(time)
   }
-  return fmt;
+  const formatObj = {
+    y: date.getFullYear(),
+    m: date.getMonth() + 1,
+    d: date.getDate(),
+    h: date.getHours(),
+    i: date.getMinutes(),
+    s: date.getSeconds(),
+    a: date.getDay()
+  }
+  return format.replace(/{([ymdhisa])+}/g, (result, key) => {
+    let value = formatObj[key]
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
+    if (result.length > 0 && value < 10) {
+      value = '0' + value
+    }
+    return value || 0
+  })
 }
 
-function padLeftZero(str) {
-  return ('00' + str).substr(str.length);
+// 格式化时间
+export function formatTime(time, option) {
+  if (('' + time).length === 10) {
+    time = parseInt(time) * 1000
+  } else {
+    time = +time
+  }
+  const d = new Date(time)
+  const now = Date.now()
+
+  const diff = (now - d) / 1000
+
+  if (diff < 30) {
+    return '刚刚'
+  } else if (diff < 3600) {
+    // less 1 hour
+    return Math.ceil(diff / 60) + '分钟前'
+  } else if (diff < 3600 * 24) {
+    return Math.ceil(diff / 3600) + '小时前'
+  } else if (diff < 3600 * 24 * 2) {
+    return '1天前'
+  }
+  if (option) {
+    return parseTime(time, option)
+  } else {
+    return (
+      d.getMonth() +
+      1 +
+      '月' +
+      d.getDate() +
+      '日' +
+      d.getHours() +
+      '时' +
+      d.getMinutes() +
+      '分'
+    )
+  }
 }
 
 // 表单重置
 export function resetForm(refName) {
-	if (this.$refs[refName]) {
-		this.$refs[refName].resetFields();
-	}
+  if (this.$refs[refName]) {
+    this.$refs[refName].resetFields()
+  }
 }
 
 // 添加日期范围
 export function addDateRange(params, dateRange, propName) {
-	var search = params;
-	search.params = {};
-	if (null != dateRange && '' != dateRange) {
-		if (typeof(propName) === "undefined") {
-			search.params["beginTime"] = dateRange[0];
-			search.params["endTime"] = dateRange[1];
-		} else {
-			search.params["begin" + propName] = dateRange[0];
-			search.params["end" + propName] = dateRange[1];
-		}
-	}
-	return search;
+  const search = params
+  search.params =
+    typeof search.params === 'object' &&
+    search.params !== null &&
+    !Array.isArray(search.params)
+      ? search.params
+      : {}
+  dateRange = Array.isArray(dateRange) ? dateRange : []
+  if (typeof propName === 'undefined') {
+    search.params.beginTime = dateRange[0]
+    search.params.endTime = dateRange[1]
+  } else {
+    search.params['begin' + propName] = dateRange[0]
+    search.params['end' + propName] = dateRange[1]
+  }
+  return search
 }
 
-// 回显数据字典
-export function selectDictLabel(datas, value) {
-	var actions = [];
-	Object.keys(datas).some((key) => {
-		if (datas[key].dictValue == ('' + value)) {
-			actions.push(datas[key].dictLabel);
-			return true;
-		}
-	})
-	return actions.join('');
+/**
+ * 获取数据字典标签
+ * @param {*} dictionaryCode 字典编码
+ * @param {*} value 字典值
+ */
+export function getDictionaryLabel(dictionaryCode, value) {
+  const dictionaryData = getDictionaryData(dictionaryCode, value)
+  if (dictionaryData === undefined) {
+    return undefined
+  }
+  return dictionaryData.dictionaryLabel
 }
 
-// 回显数据字典（字符串数组）
-export function selectDictLabels(datas, value, separator) {
-	var actions = [];
-	var currentSeparator = undefined === separator ? "," : separator;
-	var temp = value.split(currentSeparator);
-	Object.keys(value.split(currentSeparator)).some((val) => {
-		Object.keys(datas).some((key) => {
-			if (datas[key].dictValue == ('' + temp[val])) {
-				actions.push(datas[key].dictLabel + currentSeparator);
-			}
-		})
-	})
-	return actions.join('').substring(0, actions.join('').length - 1);
+/**
+ * 获取数据字典数据
+ * @param {*} dictionaryCode 字典编码
+ * @param {*} value 字典值
+ */
+export function getDictionaryData(dictionaryCode, value) {
+  if (value === undefined) {
+    return undefined
+  }
+  // 获取数据字典
+  const dictionary = getDictionary(dictionaryCode)
+  if (dictionary.length === 0) {
+    return undefined
+  }
+  for (const dictionaryData of dictionary) {
+    if (dictionaryData.dictionaryValue === value + '') {
+      return dictionaryData
+    }
+  }
+  return undefined
 }
 
-// 通用下载方法
-export function download(fileName) {
-	window.location.href = baseURL + "/common/download?fileName=" + encodeURI(fileName) + "&delete=" + true;
+/**
+ * 获取数据字典
+ * @param {*} dictionaryCode 字典编码
+ */
+export function getDictionary(dictionaryCode) {
+  if (dictionaryCode === undefined) {
+    return []
+  }
+  const dictionaryInfoList = store.getters['dictionary/allDictionaryInfo']
+  for (const dictionary of dictionaryInfoList) {
+    if (dictionaryCode === dictionary.dictionaryCode) {
+      return dictionary.dictionaryDataList
+    }
+  }
+  return []
 }
 
 // 字符串格式化(%s )
 export function sprintf(str) {
-	var args = arguments, flag = true, i = 1;
-	str = str.replace(/%s/g, function () {
-		var arg = args[i++];
-		if (typeof arg === 'undefined') {
-			flag = false;
-			return '';
-		}
-		return arg;
-	});
-	return flag ? str : '';
+  const args = arguments
+  let flag = true
+  let i = 1
+  str = str.replace(/%s/g, function () {
+    const arg = args[i++]
+    if (typeof arg === 'undefined') {
+      flag = false
+      return ''
+    }
+    return arg
+  })
+  return flag ? str : ''
 }
 
 // 转换字符串，undefined,null等转化为""
-export function praseStrEmpty(str) {
-	if (!str || str == "undefined" || str == "null") {
-		return "";
-	}
-	return str;
+export function parseStrEmpty(str) {
+  if (!str || str === 'undefined' || str === 'null') {
+    return ''
+  }
+  return str
+}
+
+// 数据合并
+export function mergeRecursive(source, target) {
+  for (const p in target) {
+    try {
+      if (target[p].constructor === Object) {
+        source[p] = mergeRecursive(source[p], target[p])
+      } else {
+        source[p] = target[p]
+      }
+    } catch (e) {
+      source[p] = target[p]
+    }
+  }
+  return source
 }
 
 /**
@@ -154,58 +211,150 @@ export function praseStrEmpty(str) {
  * @param {*} id id字段 默认 'id'
  * @param {*} parentId 父节点字段 默认 'parentId'
  * @param {*} children 孩子节点字段 默认 'children'
- * @param {*} rootId 根Id 默认 0
  */
-export function handleTree(data, id, parentId, children, rootId) {
-	id = id || 'id'
-	parentId = parentId || 'parentId'
-	children = children || 'children'
-	rootId = rootId || Math.min.apply(Math, data.map(item => { return item[parentId] })) || 0
-	//对源数据深度克隆
-	const cloneData = JSON.parse(JSON.stringify(data))
-	//循环所有项
-	const treeData = cloneData.filter(father => {
-		let branchArr = cloneData.filter(child => {
-			//返回每一项的子级数组
-			return father[id] === child[parentId]
-		});
-		branchArr.length > 0 ? father.children = branchArr : '';
-		//返回第一层
-		return father[parentId] === rootId;
-	});
-	return treeData != '' ? treeData : data;
+export function handleTree(data, id, parentId, children) {
+  const config = {
+    id: id || 'id',
+    parentId: parentId || 'parentId',
+    childrenList: children || 'children'
+  }
+
+  const childrenListMap = {}
+  const nodeIds = {}
+  const tree = []
+
+  for (const d of data) {
+    const parentId = d[config.parentId]
+    if (childrenListMap[parentId] == null) {
+      childrenListMap[parentId] = []
+    }
+    nodeIds[d[config.id]] = d
+    childrenListMap[parentId].push(d)
+  }
+
+  for (const d of data) {
+    const parentId = d[config.parentId]
+    if (nodeIds[parentId] == null) {
+      tree.push(d)
+    }
+  }
+
+  for (const t of tree) {
+    adaptToChildrenList(t)
+  }
+
+  function adaptToChildrenList(o) {
+    if (childrenListMap[o[config.id]] !== null) {
+      o[config.childrenList] = childrenListMap[o[config.id]]
+    }
+    if (o[config.childrenList]) {
+      for (const c of o[config.childrenList]) {
+        adaptToChildrenList(c)
+      }
+    }
+  }
+  return tree
 }
 
 /**
- * 是否为移动端
- * @returns {RegExpMatchArray}
+ * 参数处理
+ * @param {*} params  参数
  */
-export function isMobile(){
-  let flag = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
-  return flag;
+export function tansParams(params) {
+  let result = ''
+  for (const propName of Object.keys(params)) {
+    const value = params[propName]
+    const part = encodeURIComponent(propName) + '='
+    if (value !== null && typeof value !== 'undefined') {
+      if (typeof value === 'object') {
+        for (const key of Object.keys(value)) {
+          if (value[key] !== null && typeof value[key] !== 'undefined') {
+            const params = propName + '[' + key + ']'
+            const subPart = encodeURIComponent(params) + '='
+            result += subPart + encodeURIComponent(value[key]) + '&'
+          }
+        }
+      } else {
+        result += part + encodeURIComponent(value) + '&'
+      }
+    }
+  }
+  return result
 }
 
-// 瞄点定位
-export function scrollTop(number, time) {
-  if (!time) {
-    document.body.scrollTop = document.documentElement.scrollTop = number;
-    return number;
+// 返回项目路径
+export function getNormalPath(p) {
+  if (p.length === 0 || !p || p === 'undefined') {
+    return p
   }
-  // 设置循环的间隔时间，值越小消耗性能越高
-  const spacingTime = 20;
-  // 计算循环的次数
-  let spacingInex = time / spacingTime;
-  // 获取当前滚动条位置
-  let nowTop = document.body.scrollTop + document.documentElement.scrollTop;
-  // 计算每次滑动的距离
-  let everTop = (number - nowTop) / spacingInex;
-  let scrollTimer = setInterval(() => {
-    if (spacingInex > 0) {
-      spacingInex--;
-      this.scrollTop(nowTop += everTop);
-    } else {
-      // 清除计时器
-      clearInterval(scrollTimer);
-    }
-  }, time);
+  const res = p.replace('//', '/')
+  if (res[res.length - 1] === '/') {
+    return res.slice(0, res.length - 1)
+  }
+  return res
+}
+
+// 验证是否为blob格式
+export async function blobValidate(data) {
+  try {
+    const text = await data.text()
+    JSON.parse(text)
+    return false
+  } catch (error) {
+    return true
+  }
+}
+
+/**
+ * 复制文字到剪切板
+ * @param text
+ */
+export function copyText(text) {
+  const oInput = document.createElement('input')
+  oInput.value = text
+  document.body.appendChild(oInput)
+  oInput.select() // 选择对象
+  document.execCommand('Copy') // 执行浏览器复制命令
+  oInput.className = 'oInput'
+  oInput.style.display = 'none'
+}
+
+/**
+ * 获取图片显示链接
+ */
+export function getPictureShowUrl(picturePath, isProjectImage) {
+  if (!picturePath || picturePath.indexOf('data:image') !== -1) {
+    return picturePath
+  }
+  return isHttp(picturePath) || isProjectImage
+    ? picturePath
+    : process.env.VUE_APP_BASE_FILE + picturePath
+}
+
+/**
+ * 获取主机域名
+ */
+export function getHost() {
+  return window.location.protocol + '//' + window.location.host
+}
+
+/**
+ * 打开网站
+ */
+export function openSite(siteUrl) {
+  const host = window.location.host
+  // 如果跳转网站为当前网站，不加 ref 后缀
+  if (
+    siteUrl.indexOf('http://' + host) === -1 ||
+    siteUrl.indexOf('https://' + host) === -1
+  ) {
+    window.open(siteUrl, '_blank')
+    return
+  }
+  if (siteUrl.lastIndexOf('?') > 0) {
+    siteUrl = siteUrl + '&ref=' + host
+  } else {
+    siteUrl = siteUrl + '?ref=' + host
+  }
+  window.open(siteUrl, '_blank')
 }

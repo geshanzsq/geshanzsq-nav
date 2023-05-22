@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.nav.category.mapper.NavCategoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.nav.category.vo.NavCategoryVO" >
+        <result column="id" property="id" />
+        <result column="parent_id" property="parentId" />
+        <result column="sort" property="sort" />
+        <result column="category_name" property="categoryName" />
+        <result column="category_icon" property="categoryIcon" />
+        <result column="status" property="status" />
+        <result column="fk_create_user_id" property="createUserId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="modify_user_id" property="modifyUserId" />
+        <result column="gmt_modify" property="gmtModify" />
+    </resultMap>
+
+    <!-- 获取最大排序 -->
+    <select id="selectMaxSortByParentId" parameterType="Long" resultType="java.lang.Integer">
+        select max(sort) from nav_category where parent_id = #{parentId}
+    </select>
+</mapper>

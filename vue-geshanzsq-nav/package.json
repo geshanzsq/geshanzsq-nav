@@ -1,87 +1,56 @@
 {
-  "name": "geshanzsq-nav",
-  "version": "1.0.0",
-  "description": "格姗知识圈导航系统",
+  "name": "vue-geshanzsq-nav",
+  "version": "2.0.0",
+  "description": "格姗导航",
   "author": "geshanzsq",
-  "license": "MIT",
+  "private": true,
   "scripts": {
-    "dev": "vue-cli-service serve",
-    "build:prod": "vue-cli-service build",
-    "build:stage": "vue-cli-service build --mode staging",
-    "preview": "node build/index.js --preview",
-    "lint": "eslint --ext .js,.vue src"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "keywords": [
-    "vue",
-    "admin",
-    "dashboard",
-    "element-ui",
-    "boilerplate",
-    "admin-template",
-    "management-system"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "https://gitee.com/geshanzsq/geshanzsq-nav"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@riophae/vue-treeselect": "0.4.0",
-    "axios": "0.21.0",
-    "clipboard": "2.0.6",
-    "core-js": "3.8.1",
-    "echarts": "4.9.0",
-    "element-ui": "2.15.0",
-    "file-saver": "2.0.4",
-    "fuse.js": "6.4.3",
-    "highlight.js": "9.18.5",
-    "js-beautify": "1.13.0",
-    "js-cookie": "2.2.1",
-    "jsencrypt": "3.0.0-rc.1",
-    "nprogress": "0.2.0",
-    "quill": "1.3.7",
-    "screenfull": "5.0.2",
-    "sortablejs": "1.10.2",
-    "vue": "2.6.12",
-    "vue-count-to": "1.0.13",
-    "vue-cropper": "0.5.5",
-    "vue-router": "3.4.9",
-    "vuedraggable": "2.24.3",
-    "vuex": "3.6.0"
+    "@highlightjs/vue-plugin": "^2.1.0",
+    "@vueuse/core": "^8.6.0",
+    "@wangeditor/editor": "^5.1.15",
+    "@wangeditor/editor-for-vue": "^5.1.12",
+    "axios": "^0.27.2",
+    "core-js": "^3.8.3",
+    "element-plus": "^2.3.4",
+    "file-saver": "^2.0.5",
+    "fuse.js": "^6.6.2",
+    "highlight.js": "^11.6.0",
+    "js-cookie": "^3.0.1",
+    "jsonp": "^0.2.1",
+    "nprogress": "^0.2.0",
+    "save": "^2.5.0",
+    "svg-sprite-loader": "^6.0.11",
+    "vue": "^3.2.37",
+    "vue-cropper": "^1.0.3",
+    "vue-router": "^4.0.16",
+    "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "4.4.6",
-    "@vue/cli-plugin-eslint": "4.4.6",
-    "@vue/cli-service": "4.4.6",
-    "babel-eslint": "10.1.0",
-    "chalk": "4.1.0",
-    "connect": "3.6.6",
-    "eslint": "7.15.0",
-    "eslint-plugin-vue": "7.2.0",
-    "lint-staged": "10.5.3",
-    "sass": "1.32.0",
-    "runjs": "4.4.2",
-    "sass-loader": "10.1.0",
-    "script-ext-html-webpack-plugin": "2.1.5",
-    "svg-sprite-loader": "5.1.1",
-    "vue-template-compiler": "2.6.12"
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "@vue/eslint-config-standard": "^6.1.0",
+    "compression-webpack-plugin": "^10.0.0",
+    "eslint": "^7.32.0",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-vue": "^8.0.3",
+    "lint-staged": "^11.1.2",
+    "sass": "^1.32.7",
+    "sass-loader": "^12.0.0",
+    "vue-cli-plugin-element-plus": "~0.0.13"
   },
-  "engines": {
-    "node": ">=8.9",
-    "npm": ">= 3.0.0"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions"
-  ]
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  }
 }

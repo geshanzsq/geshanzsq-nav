@@ -1,0 +1,17 @@
+// 侧边栏背景颜色
+$sidebar-background-color: #fff;
+// 菜单选中颜色
+$menu-item-active-background-color: var(--el-color-primary);
+$menu-item-active-text-color: var(--el-color-primary);
+
+.geshan-theme-blue-white {
+  .sidebar-container {
+    background-color: $sidebar-background-color !important;
+
+    .logo-container {
+      .title {
+        color: #515a6e !important;
+      }
+    }
+  }
+}

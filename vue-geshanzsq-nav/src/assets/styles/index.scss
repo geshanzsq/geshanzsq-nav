@@ -1,16 +1,21 @@
-@import './variables.scss';
-@import './mixin.scss';
-@import './transition.scss';
-@import './element-ui.scss';
-@import './sidebar.scss';
 @import './btn.scss';
+@import './element-plus-ui.scss';
+@import './geshanzsq.scss';
+@import './mixin.scss';
+@import './sidebar.scss';
+@import './variables.module.scss';
+
+@import './themes/blue-black.scss';
+@import './themes/blue-white.scss';
 
 body {
   height: 100%;
+  margin: 0;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB,
+    Microsoft YaHei, Arial, sans-serif;
 }
 
 label {
@@ -90,7 +95,7 @@ div:focus {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }
@@ -104,7 +109,8 @@ aside {
   display: block;
   line-height: 32px;
   font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   color: #2c3e50;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -134,7 +140,7 @@ aside {
 }
 
 .text-center {
-  text-align: center
+  text-align: center;
 }
 
 .sub-navbar {
@@ -145,7 +151,13 @@ aside {
   text-align: right;
   padding-right: 20px;
   transition: 600ms ease position;
-  background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(32, 182, 249, 1) 0%,
+    rgba(32, 182, 249, 1) 0%,
+    rgba(33, 120, 241, 1) 100%,
+    rgba(33, 120, 241, 1) 100%
+  );
 
   .subtitle {
     font-size: 20px;
@@ -188,4 +200,22 @@ aside {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+
+// 定义滚动条高宽及背景 高宽分别对应横竖滚动条的尺寸
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+// 定义滚动条轨道 内阴影+圆角
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 5px rgba(139, 140, 142, 0.5);
+  border-radius: 10px;
+  background-color: white;
+}
+// 定义滑块 内阴影+圆角
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  -webkit-box-shadow: inset 0 0 5px rgba(139, 140, 142, 0.5);
+  background-color: rgba(144, 147, 153, 0.5);
 }

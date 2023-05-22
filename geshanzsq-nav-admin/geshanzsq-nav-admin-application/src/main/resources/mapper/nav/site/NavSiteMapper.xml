@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.nav.site.mapper.NavSiteMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.nav.site.vo.NavSiteVO" >
+        <result column="id" property="id" />
+        <result column="fk_category_id" property="categoryId" />
+        <result column="site_name" property="siteName" />
+        <result column="site_path" property="sitePath" />
+        <result column="site_description" property="siteDescription" />
+        <result column="site_url" property="siteUrl" />
+        <result column="sort" property="sort" />
+        <result column="click_count" property="clickCount" />
+        <result column="status" property="status" />
+        <result column="fk_create_user_id" property="createUserId" />
+        <result column="gmt_create" property="gmtCreate" />
+        <result column="modify_user_id" property="modifyUserId" />
+        <result column="gmt_modify" property="gmtModify" />
+    </resultMap>
+
+    <resultMap id="NavClientSiteSearchMap" type="com.geshanzsq.admin.client.search.vo.NavClientSiteSearchVO">
+        <result column="id" property="id" />
+        <result column="category_name" property="categoryName" />
+        <result column="site_name" property="siteName" />
+        <result column="site_url" property="siteUrl" />
+        <result column="site_description" property="siteDescription" />
+    </resultMap>
+
+    <!-- 获取最大排序 -->
+    <select id="selectMaxSortByCategoryId" resultType="Integer">
+        select max(sort) from nav_site
+        <where>
+            <if test="categoryId != null">
+                and fk_category_id = #{categoryId}
+            </if>
+        </where>
+    </select>
+
+    <!-- 更新点击量 -->
+    <update id="updateClickCountById">
+        update nav_site set click_count = click_count + 1 where id = #{id}
+    </update>
+
+    <!-- 查询列表 -->
+    <select id="selectListByUserImport" resultType="com.geshanzsq.admin.nav.site.dto.NavSiteListUserImportDTO" resultMap="BaseResultMap">
+        select id,
+            fk_category_id,
+            site_name,
+            site_path,
+            site_description,
+            site_url
+        from nav_site
+        where status = #{status}
+        <choose>
+            <when test="categoryId != null and categoryId == 0">
+                <!-- 只查前 20 条记录 -->
+                order by gmt_create desc
+                limit 20
+            </when>
+            <otherwise>
+                <if test="categoryId != null">
+                    and fk_category_id = #{categoryId}
+                </if>
+                <if test="siteName != null and siteName != ''">
+                    and (
+                    site_name like concat('%', #{siteName}, '%')
+                    or site_description like concat('%', #{siteName}, '%')
+                    or site_url like concat('%', #{siteName}, '%')
+                    )
+                </if>
+                order by
+                    fk_category_id asc, sort asc
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 站內网站搜索 -->
+    <select id="selectSiteSearchList" resultMap="NavClientSiteSearchMap">
+        select s.id, s.site_name, s.site_url, s.site_description, c.category_name from nav_site s
+        inner join nav_category c on s.fk_category_id = c.id
+        where s.status = #{status}
+        and (s.site_name like concat('%', #{searchContent}, '%') or s.site_description like concat('%', #{searchContent}, '%'))
+    </select>
+
+    <!-- 获取点击量 -->
+    <select id="selectClickCount" resultType="java.lang.Long">
+        select sum(click_count) from nav_site
+    </select>
+</mapper>

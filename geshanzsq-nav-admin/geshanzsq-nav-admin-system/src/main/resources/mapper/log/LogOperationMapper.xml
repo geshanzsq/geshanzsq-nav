@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.geshanzsq.admin.system.log.operation.mapper.LogOperationMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.system.log.operation.vo.LogOperationVo" >
+        <result column="id" property="id" />
+        <result column="module_name" property="moduleName" />
+        <result column="business_type" property="businessType" />
+        <result column="operate_type" property="operateType" />
+        <result column="user_id" property="userId" />
+        <result column="request_method" property="requestMethod" />
+        <result column="class_method" property="classMethod" />
+        <result column="request_url" property="requestUrl" />
+        <result column="ip_address" property="ipAddress" />
+        <result column="operate_location" property="operateLocation" />
+        <result column="request_param" property="requestParam" />
+        <result column="return_result" property="returnResult" />
+        <result column="status" property="status" />
+        <result column="gmt_operate" property="gmtOperate" />
+        <result column="error_message" property="errorMessage" />
+        <result column="username" property="username" />
+        <result column="nick_name" property="nickName" />
+    </resultMap>
+
+    <!-- 分页列表 -->
+    <select id="pageList" parameterType="com.geshanzsq.admin.system.log.operation.dto.LogOperationPageDTO" resultMap="BaseResultMap">
+        select
+            lo.id,
+            lo.module_name,
+            lo.business_type,
+            lo.operate_type,
+            lo.request_method,
+            lo.class_method,
+            lo.request_url,
+            lo.ip_address,
+            lo.operate_location,
+            lo.status,
+            lo.gmt_operate,
+            su.username,
+            su.nick_name
+        from
+            log_operation lo
+            left join sys_user su on lo.fk_user_id = su.id
+        <where>
+            <if test="moduleName != null and moduleName != ''">
+                and lo.module_name like concat('%', #{moduleName}, '%')
+            </if>
+            <if test="ipAddress != null and ipAddress != ''">
+                and lo.ip_address like concat('%', #{ipAddress}, '%')
+            </if>
+            <if test="operateUser != null and operateUser != ''">
+                and (
+                    su.username like concat('%', #{operateUser}, '%')
+                    or su.nick_name like concat('%', #{operateUser}, '%')
+                )
+            </if>
+            <if test="businessType != null and businessType != ''">
+                and lo.business_type = #{businessType}
+            </if>
+            <if test="operateType != null and operateType != ''">
+                and lo.operate_type = #{operateType}
+            </if>
+            <if test="status != null and status != ''">
+                and lo.status = #{status}
+            </if>
+            <if test="beginGmtOperate != null">
+                and lo.gmt_operate >= #{beginGmtOperate}
+            </if>
+            <if test="endGmtOperate != null">
+                and lo.gmt_operate &lt;= #{endGmtOperate}
+            </if>
+        </where>
+        order by lo.gmt_operate desc, lo.id desc
+    </select>
+
+
+</mapper>

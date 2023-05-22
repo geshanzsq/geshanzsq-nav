@@ -1,96 +1,107 @@
-import { login, logout, getInfo } from '@/api/login'
+import defaultAvatar from '@/assets/images/profile.jpg'
+import { login, logout } from '@/api/auth/login'
+import { getUserInfo } from '@/api/auth/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getPictureShowUrl } from '@/utils/geshanzsq'
 
-const user = {
-  state: {
-    token: getToken(),
-    name: '',
-    avatar: '',
-    roles: [],
-    permissions: []
+const state = {
+  token: getToken(),
+  username: '',
+  avatar: '',
+  roleCodes: [],
+  permissionCodes: []
+}
+
+const getters = {
+  token: (state) => state.token,
+  username: (state) => state.username,
+  avatar: (state) => state.avatar,
+  roleCodes: (state) => state.roleCodes,
+  permissionCodes: (state) => state.permissionCodes
+}
+
+const mutations = {
+  setToken: (state, token) => {
+    state.token = token
   },
-
-  mutations: {
-    SET_TOKEN: (state, token) => {
-      state.token = token
-    },
-    SET_NAME: (state, name) => {
-      state.name = name
-    },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
-    },
-    SET_PERMISSIONS: (state, permissions) => {
-      state.permissions = permissions
-    }
+  setUsername: (state, username) => {
+    state.username = username
   },
-
-  actions: {
-    // 登录
-    Login({ commit }, userInfo) {
-      const username = userInfo.username.trim()
-      const password = userInfo.password
-      const code = userInfo.code
-      const uuid = userInfo.uuid
-      return new Promise((resolve, reject) => {
-        login(username, password, code, uuid).then(res => {
-          setToken(res.token)
-          commit('SET_TOKEN', res.token)
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-
-    // 获取用户信息
-    GetInfo({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        getInfo(state.token).then(res => {
-          const user = res.user
-          const avatar = user.avatar == "" ? require("@/assets/images/profile.jpg") : process.env.VUE_APP_BASE_API + user.avatar;
-          if (res.roles && res.roles.length > 0) { // 验证返回的roles是否是一个非空数组
-            commit('SET_ROLES', res.roles)
-            commit('SET_PERMISSIONS', res.permissions)
-          } else {
-            commit('SET_ROLES', ['ROLE_DEFAULT'])
-          }
-          commit('SET_NAME', user.userName)
-          commit('SET_AVATAR', avatar)
-          resolve(res)
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-    
-    // 退出系统
-    LogOut({ commit, state }) {
-      return new Promise((resolve, reject) => {
-        logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          commit('SET_PERMISSIONS', [])
-          removeToken()
-          resolve()
-        }).catch(error => {
-          reject(error)
-        })
-      })
-    },
-
-    // 前端 登出
-    FedLogOut({ commit }) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resolve()
-      })
+  setAvatar: (state, avatar) => {
+    state.avatar =
+      avatar === null || avatar === ''
+        ? defaultAvatar
+        : getPictureShowUrl(avatar)
+  },
+  setRoleCodes: (state, roleCodes) => {
+    state.roleCodes = roleCodes
+  },
+  setPermissionCodes: (state, permissionCodes) => {
+    if (permissionCodes) {
+      state.permissionCodes = permissionCodes
+    } else {
+      state.permissionCodes = []
     }
   }
 }
 
-export default user
+const actions = {
+  // 登录
+  login({ commit }, userInfo) {
+    const { username, password, uuid, code } = userInfo
+    return new Promise((resolve, reject) => {
+      login({
+        username,
+        password,
+        uuid,
+        code
+      })
+        .then((response) => {
+          const {
+            data: { token }
+          } = response
+          setToken(token)
+          commit('setToken', token)
+          resolve()
+        })
+        .catch((error) => {
+          reject(error)
+        })
+    })
+  },
+
+  // 获取用户信息
+  async getUserInfo({ commit }) {
+    const {
+      data: { username, avatar, roleCodes, permissionCodes }
+    } = await getUserInfo()
+    commit('setUsername', username)
+    commit('setRoleCodes', roleCodes)
+    commit('setPermissionCodes', permissionCodes)
+    commit('setAvatar', avatar)
+  },
+
+  // 退出登录
+  async logout({ commit }) {
+    try {
+      await logout()
+    } catch (error) {
+      console.log(error)
+    }
+
+    commit('setToken', '')
+    commit('setRoleCodes', [])
+    removeToken()
+  },
+
+  // 设置头像
+  setAvatar({ commit }, data) {
+    commit('setAvatar', data)
+  },
+  // 设置 token
+  setToken({ commit }, data) {
+    commit('setToken', data)
+  }
+}
+
+export default { namespaced: true, state, getters, mutations, actions }

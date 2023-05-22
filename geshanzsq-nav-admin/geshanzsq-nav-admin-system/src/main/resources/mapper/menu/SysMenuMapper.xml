@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.system.menu.mapper.SysMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.system.menu.vo.SysMenuVO" >
+        <result column="id" property="id" />
+        <result column="menu_name" property="menuName" />
+        <result column="parent_id" property="parentId" />
+        <result column="sort" property="sort" />
+        <result column="menu_type" property="menuType" />
+        <result column="permission_code" property="permissionCode" />
+        <result column="router_url" property="routerUrl" />
+        <result column="component_path" property="componentPath" />
+        <result column="router_param" property="routerParam" />
+        <result column="has_frame" property="hasFrame" />
+        <result column="has_cache" property="hasCache" />
+        <result column="menu_icon" property="menuIcon" />
+        <result column="show_status" property="showStatus" />
+        <result column="status" property="status" />
+        <result column="gmt_time" property="gmtCreate" />
+        <result column="fk_create_user_id" property="createUserId" />
+        <result column="gmt_modify" property="gmtModify" />
+        <result column="fk_modify_user_id" property="modifyUserId" />
+    </resultMap>
+
+    <!-- 通过角色 ids 获取菜单 -->
+    <select id="getMenuByRoleIds" resultMap="BaseResultMap">
+        select m.id, m.permission_code from sys_role_menu rm
+        inner join sys_menu m on rm.fk_menu_id = m.id
+        where m.status = #{menuStatus}
+            and rm.fk_role_id in
+            <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+                #{roleId}
+            </foreach>
+            and m.menu_type in
+            <foreach collection="menuTypes" item="menuType" open="(" separator="," close=")">
+                #{menuType}
+            </foreach>
+    </select>
+
+    <!-- 通过用户 id 获取菜单 -->
+    <select id="getMenuByUserId" resultMap="BaseResultMap">
+        select distinct m.id,
+            m.parent_id,
+            m.menu_name,
+            m.router_url,
+            m.component_path,
+            m.router_param,
+            m.show_status,
+            m.status,
+            m.permission_code,
+            m.has_frame,
+            m.has_cache,
+            m.menu_type,
+            m.menu_icon,
+            m.sort
+		from sys_menu m
+        left join sys_role_menu rm on m.id = rm.fk_menu_id
+        left join sys_user_role ur on rm.fk_role_id = ur.fk_role_id
+        left join sys_role ro on ur.fk_role_id = ro.id
+        where ur.fk_user_id = #{userId}
+            and m.status = #{menuStatus}
+            and ro.status = #{roleStatus}
+            and m.menu_type in
+                <foreach collection="menuTypes" item="menuType" open="(" separator="," close=")">
+                    #{menuType}
+                </foreach>
+
+        union
+        select distinct m.id,
+            m.parent_id,
+            m.menu_name,
+            m.router_url,
+            m.component_path,
+            m.router_param,
+            m.show_status,
+            m.status,
+            m.permission_code,
+            m.has_frame,
+            m.has_cache,
+            m.menu_type,
+            m.menu_icon,
+            m.sort
+        from sys_menu m
+        where m.has_permission = #{menuHasPermission} and m.status = #{menuStatus}
+            and m.menu_type in
+            <foreach collection="menuTypes" item="menuType" open="(" separator="," close=")">
+                #{menuType}
+            </foreach>
+		order by parent_id, sort
+    </select>
+
+    <!-- 获取最大排序 -->
+    <select id="selectMaxSortByParentId" parameterType="Long" resultType="java.lang.Integer">
+        select max(sort) from sys_menu where parent_id = #{parentId}
+    </select>
+
+
+</mapper>

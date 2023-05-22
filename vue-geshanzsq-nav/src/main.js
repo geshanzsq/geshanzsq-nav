@@ -1,89 +1,91 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
 
 import Cookies from 'js-cookie'
 
-import Element from 'element-ui'
-import './assets/styles/element-variables.scss'
-
-import '@/assets/styles/index.scss' // global css
-import '@/assets/styles/geshanzsq.scss'
-import App from './App'
-import store from './store'
+import App from './App.vue'
 import router from './router'
-import permission from './directive/permission'
+import store from './store'
 
-import './assets/icons' // icon
-import './permission' // permission control
-import { getDicts } from "@/api/system/dict/data";
-import { getConfigKey } from "@/api/system/config";
-import { parseTime, resetForm, addDateRange, selectDictLabel, selectDictLabels, download, handleTree,parseDate, scrollTop} from "@/utils/geshanzsq";
-import Pagination from "@/components/Pagination";
-// 自定义表格工具扩展
-import RightToolbar from "@/components/RightToolbar"
-// 代码高亮插件
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+// 中文语言
+import locale from 'element-plus/es/locale/lang/zh-cn'
+
+// 导入 svgIcon
+import svgIcon from '@/plugins/svg-icon'
+import elementIcons from '@/components/SvgIcon/svgicon'
+
+// 代码高亮文件引入
 import hljs from 'highlight.js'
-//样式文件,这里我选的是sublime样式，文件里面还有其他样式可供选择
+// 样式文件,这里我选的是sublime样式，文件里面还有其他样式可供选择
 import 'highlight.js/styles/monokai-sublime.css'
-Vue.directive('highlight',function (el) {
-  let blocks = el.querySelectorAll('pre code');
-  blocks.forEach((block)=>{
+
+// 全局样式
+import '@/assets/styles/index.scss'
+
+// 插件
+import plugins from './plugins'
+
+// 指令
+import directive from './directive'
+
+// 导航守卫
+import './permission'
+
+import {
+  parseTime,
+  resetForm,
+  addDateRange,
+  handleTree,
+  getDictionaryLabel,
+  getPictureShowUrl,
+  getHost
+} from '@/utils/geshanzsq'
+
+// 分页组件
+import Pagination from '@/components/Pagination'
+
+// 字典组件
+import DictionaryTag from '@/components/DictionaryTag'
+import DictionaryOption from '@/components/DictionaryOption'
+import DictionaryRadio from '@/components/DictionaryRadio'
+
+const app = createApp(App)
+
+directive(app)
+
+// 全局方法挂载
+app.config.globalProperties.parseTime = parseTime
+app.config.globalProperties.resetForm = resetForm
+app.config.globalProperties.handleTree = handleTree
+app.config.globalProperties.addDateRange = addDateRange
+app.config.globalProperties.getDictionaryLabel = getDictionaryLabel
+app.config.globalProperties.getPictureShowUrl = getPictureShowUrl
+app.config.globalProperties.getHost = getHost
+
+// 使用element-plus 并且设置全局的大小
+app.use(ElementPlus, {
+  locale: locale,
+  // 支持 large、default、small
+  size: Cookies.get('size') || 'default'
+})
+
+// 自定义一个代码高亮指令
+app.directive('highlight', function (el) {
+  const blocks = el.querySelectorAll('pre code')
+  blocks.forEach((block) => {
     hljs.highlightBlock(block)
   })
 })
 
-// 全局方法挂载
-Vue.prototype.getDicts = getDicts
-Vue.prototype.getConfigKey = getConfigKey
-Vue.prototype.parseTime = parseTime
-Vue.prototype.resetForm = resetForm
-Vue.prototype.addDateRange = addDateRange
-Vue.prototype.selectDictLabel = selectDictLabel
-Vue.prototype.selectDictLabels = selectDictLabels
-Vue.prototype.download = download
-Vue.prototype.handleTree = handleTree
-Vue.prototype.parseDate = parseDate
-Vue.prototype.scrollTop = scrollTop
-
-Vue.prototype.msgSuccess = function (msg) {
-  this.$message({ showClose: true, message: msg, type: "success" });
-}
-
-Vue.prototype.msgError = function (msg) {
-  this.$message({ showClose: true, message: msg, type: "error" });
-}
-
-Vue.prototype.msgInfo = function (msg) {
-  this.$message.info(msg);
-}
-
-Vue.prototype.msgWarning = function (msg) {
-  this.$message.warning(msg);
-}
+app.use(plugins)
 
 // 全局组件挂载
-Vue.component('Pagination', Pagination)
-Vue.component('RightToolbar', RightToolbar)
+app.component('Pagination', Pagination)
+app.component('DictionaryTag', DictionaryTag)
+app.component('DictionaryOption', DictionaryOption)
+app.component('DictionaryRadio', DictionaryRadio)
 
-Vue.use(permission)
-
-/**
- * If you don't want to use mock-server
- * you want to use MockJs for mock api
- * you can execute: mockXHR()
- *
- * Currently MockJs will be used in the production environment,
- * please remove it before going online! ! !
- */
-
-Vue.use(Element, {
-  size: Cookies.get('size') || 'medium' // set element-ui default size
-})
-
-Vue.config.productionTip = false
-
-new Vue({
-  el: '#app',
-  router,
-  store,
-  render: h => h(App)
-})
+app.use(svgIcon)
+app.use(elementIcons)
+app.use(store).use(router).mount('#app')

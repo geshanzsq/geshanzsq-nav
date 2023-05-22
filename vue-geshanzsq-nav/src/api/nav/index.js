@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function getAllCount() {
+export function getStatistics() {
   return request({
-    url: '/nav/index',
+    url: '/nav/index/getStatistics',
     method: 'get'
   })
 }

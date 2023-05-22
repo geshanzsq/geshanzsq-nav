@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>geshanzsq-nav-common</artifactId>
+        <groupId>com.geshanzsq</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>geshanzsq-nav-common-framework</artifactId>
+    <name>geshanzsq-nav-common-framework</name>
+    <description>通用框架模块</description>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <!-- 通用核心模块 -->
+        <dependency>
+            <groupId>com.geshanzsq</groupId>
+            <artifactId>geshanzsq-nav-common-core</artifactId>
+        </dependency>
+
+        <!-- PageHelper 分页插件 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- MyBatis Plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!-- http core -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpcore</artifactId>
+        </dependency>
+
+        <!--文件上传工具类 -->
+        <dependency>
+            <groupId>commons-fileupload</groupId>
+            <artifactId>commons-fileupload</artifactId>
+        </dependency>
+    </dependencies>
+
+
+</project>

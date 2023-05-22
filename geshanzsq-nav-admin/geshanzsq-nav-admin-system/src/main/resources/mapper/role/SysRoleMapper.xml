@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.system.role.mapper.SysRoleMapper">
+
+    <resultMap id="BaseResultMap" type="com.geshanzsq.admin.system.role.vo.SysRoleVO" >
+        <result column="id" property="id" />
+        <result column="role_name" property="roleName" />
+        <result column="role_code" property="roleCode" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="del_flag" property="delFlag" />
+        <result column="gmt_time" property="gmtCreate" />
+        <result column="fk_create_user_id" property="createUserId" />
+        <result column="gmt_modify" property="gmtModify" />
+        <result column="fk_modify_user_id" property="modifyUserId" />
+        <result column="user_id" property="userId" />
+    </resultMap>
+
+    <!-- 通过用户 id 获取 -->
+    <select id="getRoleByUserIds" resultMap="BaseResultMap">
+        select r.id, r.role_code, r.role_name, ur.fk_user_id as user_id from sys_user_role ur
+        inner join sys_role r on ur.fk_role_id = r.id
+        where r.status = #{status} and ur.fk_user_id in
+        <foreach collection="userIds" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </select>
+
+    <!-- 获取最大排序 -->
+    <select id="selectMaxSort" resultType="java.lang.Integer">
+        select max(sort) from sys_role
+    </select>
+</mapper>

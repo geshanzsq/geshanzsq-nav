@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.geshanzsq.admin.nav.config.mapper.NavSiteConfigMapper">
+
+    <!-- 更新访问量 -->
+    <update id="updateVisitCount">
+        update nav_site_config set about_site_visit_count = about_site_visit_count + 1 where id = #{id}
+    </update>
+</mapper>

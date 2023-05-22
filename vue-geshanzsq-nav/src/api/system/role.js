@@ -1,75 +1,78 @@
 import request from '@/utils/request'
 
-// 查询角色列表
-export function listRole(query) {
+export function page(params) {
   return request({
-    url: '/system/role/list',
+    url: '/system/role/page',
     method: 'get',
-    params: query
+    params
   })
 }
 
-// 查询角色详细
-export function getRole(roleId) {
+export function getById(id) {
   return request({
-    url: '/system/role/' + roleId,
+    url: `/system/role/getById/${id}`,
     method: 'get'
   })
 }
 
-// 新增角色
-export function addRole(data) {
+export function add(data) {
   return request({
     url: '/system/role',
     method: 'post',
-    data: data
+    data
   })
 }
 
-// 修改角色
-export function updateRole(data) {
+export function update(data) {
   return request({
     url: '/system/role',
     method: 'put',
-    data: data
+    data
   })
 }
 
-// 角色数据权限
-export function dataScope(data) {
+export function remove(ids) {
   return request({
-    url: '/system/role/dataScope',
-    method: 'put',
-    data: data
-  })
-}
-
-// 角色状态修改
-export function changeRoleStatus(roleId, status) {
-  const data = {
-    roleId,
-    status
-  }
-  return request({
-    url: '/system/role/changeStatus',
-    method: 'put',
-    data: data
-  })
-}
-
-// 删除角色
-export function delRole(roleId) {
-  return request({
-    url: '/system/role/' + roleId,
+    url: `/system/role/delete/${ids}`,
     method: 'delete'
   })
 }
 
-// 导出角色
-export function exportRole(query) {
+export function getMaxSort() {
   return request({
-    url: '/system/role/export',
+    url: '/system/role/getMaxSort',
+    method: 'get'
+  })
+}
+
+export function userAuthPage(params) {
+  return request({
+    url: '/system/role/auth/user/page',
     method: 'get',
-    params: query
+    params
+  })
+}
+
+export function userUnAuthPage(params) {
+  return request({
+    url: '/system/role/auth/user/not/page',
+    method: 'get',
+    params
+  })
+}
+
+export function authUser(data) {
+  return request({
+    url: '/system/role/auth/user',
+    method: 'post',
+    data
+  })
+}
+
+export function removeAuthUser(data) {
+  return request({
+    url: '/system/role/auth/user/delete',
+    method: 'delete',
+    data
   })
 }

@@ -1,60 +1,72 @@
 import request from '@/utils/request'
 
-// 查询菜单列表
-export function listMenu(query) {
+export function list(params) {
   return request({
     url: '/system/menu/list',
     method: 'get',
-    params: query
+    params
   })
 }
 
-// 查询菜单详细
-export function getMenu(menuId) {
+export function tree() {
   return request({
-    url: '/system/menu/' + menuId,
+    url: '/system/menu/tree',
     method: 'get'
   })
 }
 
-// 查询菜单下拉树结构
-export function treeselect() {
+export function getById(id) {
   return request({
-    url: '/system/menu/treeselect',
+    url: `/system/menu/getById/${id}`,
     method: 'get'
   })
 }
 
-// 根据角色ID查询菜单下拉树结构
-export function roleMenuTreeselect(roleId) {
+export function getMaxSortByParentId(parentId) {
   return request({
-    url: '/system/menu/roleMenuTreeselect/' + roleId,
-    method: 'get'
+    url: '/system/menu/getMaxSortByParentId',
+    method: 'get',
+    params: {
+      parentId
+    }
   })
 }
 
-// 新增菜单
-export function addMenu(data) {
+export function add(data) {
   return request({
     url: '/system/menu',
     method: 'post',
-    data: data
+    data
   })
 }
 
-// 修改菜单
-export function updateMenu(data) {
+export function update(data) {
   return request({
     url: '/system/menu',
     method: 'put',
-    data: data
+    data
   })
 }
 
-// 删除菜单
-export function delMenu(menuId) {
+export function remove(id) {
   return request({
-    url: '/system/menu/' + menuId,
+    url: `/system/menu/delete/${id}`,
     method: 'delete'
+  })
+}
+
+export function authApiList(params) {
+  return request({
+    url: '/system/menu/auth/api/list',
+    method: 'get',
+    params
+  })
+}
+
+export function authApi(data) {
+  return request({
+    url: '/system/menu/auth/api',
+    method: 'post',
+    data
   })
 }

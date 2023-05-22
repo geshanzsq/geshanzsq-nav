@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>geshanzsq-nav-admin</artifactId>
+        <groupId>com.geshanzsq</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>geshanzsq-nav-admin-application</artifactId>
+    <name>geshanzsq-nav-admin-application</name>
+    <description>后台启动模块</description>
+    <version>1.0.0</version>
+
+    <dependencies>
+        <!-- 系统模块 -->
+        <dependency>
+            <groupId>com.geshanzsq</groupId>
+            <artifactId>geshanzsq-nav-admin-system</artifactId>
+        </dependency>
+
+        <!-- 通用限流模块 -->
+        <dependency>
+            <groupId>com.geshanzsq</groupId>
+            <artifactId>geshanzsq-nav-common-rate-limiter</artifactId>
+        </dependency>
+
+        <!-- MySQL 数据库 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- easy-captcha 验证码 -->
+        <dependency>
+            <groupId>com.github.whvcse</groupId>
+            <artifactId>easy-captcha</artifactId>
+        </dependency>
+
+        <!-- 数据库密码加密 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+        </dependency>
+
+        <!-- html 解析 -->
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+
+        <!-- JustAuth 第三方登录模块-->
+        <dependency>
+            <groupId>me.zhyd.oauth</groupId>
+            <artifactId>JustAuth</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+        <finalName>${project.artifactId}</finalName>
+    </build>
+
+
+</project>

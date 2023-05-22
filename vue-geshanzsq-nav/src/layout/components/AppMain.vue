@@ -1,25 +1,26 @@
 <template>
   <section class="app-main">
-    <transition name="fade-transform" mode="out-in">
-      <keep-alive :include="cachedViews">
-        <router-view :key="key" />
-      </keep-alive>
-    </transition>
+    <router-view v-slot="{ Component, route }">
+      <transition name="fade-transform" mode="out-in">
+        <keep-alive :include="cachedViews">
+          <component :is="Component" :key="route.path" />
+        </keep-alive>
+      </transition>
+    </router-view>
   </section>
 </template>
 
-<script>
-export default {
-  name: 'AppMain',
-  computed: {
-    cachedViews() {
-      return this.$store.state.tagsView.cachedViews
-    },
-    key() {
-      return this.$route.path
-    }
-  }
-}
+<script setup>
+import { computed } from '@vue/runtime-core'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
+
+const store = useStore()
+const route = useRoute()
+store.dispatch('tagsView/addCachedView', route)
+const cachedViews = computed(() => {
+  return store.getters['tagsView/cachedViews']
+})
 </script>
 
 <style lang="scss" scoped>
@@ -31,7 +32,7 @@ export default {
   overflow: hidden;
 }
 
-.fixed-header+.app-main {
+.fixed-header + .app-main {
   padding-top: 50px;
 }
 
@@ -41,7 +42,7 @@ export default {
     min-height: calc(100vh - 84px);
   }
 
-  .fixed-header+.app-main {
+  .fixed-header + .app-main {
     padding-top: 84px;
   }
 }
@@ -51,7 +52,7 @@ export default {
 // fix css style bug in open el-dialog
 .el-popup-parent--hidden {
   .fixed-header {
-    padding-right: 15px;
+    padding-right: 17px;
   }
 }
 </style>

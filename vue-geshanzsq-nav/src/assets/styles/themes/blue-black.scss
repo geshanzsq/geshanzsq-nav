@@ -1,0 +1,41 @@
+// 侧边栏背景颜色
+$sidebar-background-color: #282c34;
+// 菜单选中颜色
+$menu-item-active-background-color: var(--el-color-primary);
+$menu-item-active-text-color: #fff;
+// 菜单文字颜色
+$menu-item-text-color: #fff;
+// logo 标题颜色
+$logo-title: #fff;
+
+.geshan-theme-blue-black {
+  .sidebar-container {
+    background-color: $sidebar-background-color !important;
+
+    .logo-container {
+      .title {
+        color: $logo-title;
+      }
+    }
+
+    .el-menu {
+      background-color: $sidebar-background-color !important;
+      .el-sub-menu__title,
+      .el-menu-item,
+      i {
+        color: $menu-item-text-color !important;
+      }
+    }
+
+    .el-menu-item.is-active,
+    .el-sub-menu__title.is-active,
+    .el-menu-item:hover,
+    .el-sub-menu__title:hover {
+      i {
+        color: $menu-item-active-text-color !important;
+      }
+      color: $menu-item-active-text-color !important;
+      background-color: $menu-item-active-background-color !important;
+    }
+  }
+}
