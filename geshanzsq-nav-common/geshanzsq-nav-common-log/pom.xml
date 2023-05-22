@@ -5,14 +5,14 @@
     <parent>
         <artifactId>geshanzsq-nav-common</artifactId>
         <groupId>com.geshanzsq</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>geshanzsq-nav-common-log</artifactId>
     <name>geshanzsq-nav-common-log</name>
     <description>日志模块</description>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 
     <dependencies>
         <!-- 框架模块 -->

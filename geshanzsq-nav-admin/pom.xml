@@ -5,14 +5,14 @@
     <parent>
         <artifactId>geshanzsq-nav</artifactId>
         <groupId>com.geshanzsq</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>geshanzsq-nav-admin</artifactId>
     <name>geshanzsq-nav-admin</name>
     <description>后台管理</description>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>pom</packaging>
 
     <modules>

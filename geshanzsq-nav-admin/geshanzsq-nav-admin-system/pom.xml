@@ -5,14 +5,14 @@
     <parent>
         <artifactId>geshanzsq-nav-admin</artifactId>
         <groupId>com.geshanzsq</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>geshanzsq-nav-admin-system</artifactId>
     <name>geshanzsq-nav-admin-system</name>
     <description>系统模块</description>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 
     <dependencies>
 

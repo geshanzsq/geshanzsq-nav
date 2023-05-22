@@ -5,14 +5,14 @@
     <parent>
         <artifactId>geshanzsq-nav-common</artifactId>
         <groupId>com.geshanzsq</groupId>
-        <version>1.0.0</version>
+        <version>2.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>geshanzsq-nav-common-swagger</artifactId>
     <name>geshanzsq-nav-common-swagger</name>
     <description>接口文档模块</description>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 
     <dependencies>
         <!-- knife4j 接口文档 -->

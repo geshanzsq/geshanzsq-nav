@@ -7,7 +7,7 @@
     <groupId>com.geshanzsq</groupId>
     <artifactId>geshanzsq-nav</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <description>格姗导航</description>
     <modules>
         <module>geshanzsq-nav-admin</module>
@@ -19,14 +19,14 @@
         <java.version>1.8</java.version>
         <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
 
-        <geshanzsq.nav.common.core.version>1.0.0</geshanzsq.nav.common.core.version>
-        <geshanzsq.nav.common.rate.limiter.version>1.0.0</geshanzsq.nav.common.rate.limiter.version>
-        <geshanzsq.nav.common.redis.version>1.0.0</geshanzsq.nav.common.redis.version>
-        <geshanzsq.nav.common.swagger.version>1.0.0</geshanzsq.nav.common.swagger.version>
-        <geshanzsq.nav.common.log.version>1.0.0</geshanzsq.nav.common.log.version>
-        <geshanzsq.nav.common.security.version>1.0.0</geshanzsq.nav.common.security.version>
-        <geshanzsq.nav.common.framework.version>1.0.0</geshanzsq.nav.common.framework.version>
-        <geshanzsq.nav.admin.system.version>1.0.0</geshanzsq.nav.admin.system.version>
+        <geshanzsq.nav.common.core.version>2.0.0</geshanzsq.nav.common.core.version>
+        <geshanzsq.nav.common.rate.limiter.version>2.0.0</geshanzsq.nav.common.rate.limiter.version>
+        <geshanzsq.nav.common.redis.version>2.0.0</geshanzsq.nav.common.redis.version>
+        <geshanzsq.nav.common.swagger.version>2.0.0</geshanzsq.nav.common.swagger.version>
+        <geshanzsq.nav.common.log.version>2.0.0</geshanzsq.nav.common.log.version>
+        <geshanzsq.nav.common.security.version>2.0.0</geshanzsq.nav.common.security.version>
+        <geshanzsq.nav.common.framework.version>2.0.0</geshanzsq.nav.common.framework.version>
+        <geshanzsq.nav.admin.system.version>2.0.0</geshanzsq.nav.admin.system.version>
 
         <spring.boot.version>2.3.12.RELEASE</spring.boot.version>
         <knife4j.version>3.0.3</knife4j.version>
