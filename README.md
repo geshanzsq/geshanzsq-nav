@@ -197,7 +197,7 @@ server {
    # 后端项目配置
    location /prod-api/ {
         # 项目 IP 地址和端口，如果不在一台服务器，请填写对应的 IP；如果后端端口修改后，请填写修改后的端口
-        proxy_pass http://127.0.0.1:8080/;
+        proxy_pass http://127.0.0.1:8083//geshanzsq-nav-api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header REMOTE-HOST $remote_addr;
