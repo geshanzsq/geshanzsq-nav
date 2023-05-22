@@ -159,6 +159,8 @@ npm run serve
 
 ![导航网站-网站配置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/3efd39b9-6cc5-453e-9a64-e07e6f8ad1de.png)
 
+![导航网站-接口文档.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/05/22/b001cf3c-b053-45b0-b84f-d6dac1ae878b.png)
+
 ## 项目部署
 
 最近有挺多小伙伴不知道如何部署到服务器，小格子给大家简单的介绍一下。
