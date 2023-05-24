@@ -36,7 +36,7 @@
         <router-link to="/about" target="_blank">
           <el-menu-item index="about">
             <svg-icon icon-name="heart" />
-            <span>关于本站</span>
+            <template #title><span class="menu-title">关于本站</span></template>
           </el-menu-item>
         </router-link>
       </el-menu>
