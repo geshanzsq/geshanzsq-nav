@@ -21,6 +21,10 @@ import Weather from '@/components/Weather'
 const store = useStore()
 const sidebar = computed(() => store.getters['app/sidebar'])
 const weatherOpen = computed(() => store.getters['settings/weatherOpen'])
+
+function toggleSideBar() {
+  store.dispatch('app/toggleSideBar')
+}
 </script>
 
 <style lang="scss" scoped>
