@@ -173,7 +173,13 @@ npm run serve
 
 [Linux 安装 Nginx 代理](https://geshanzsq.com/article/65)
 
-前端打包后会生成 dist，上传到服务器对应目录。后端打包为 Jar 包，上传到服务器对应目录并执行下面命令：
+前端打包后会生成 dist，上传到服务器对应目录。打包命令：
+
+```shell
+npm run build
+```
+
+后端打包为 Jar 包，上传到服务器对应目录并执行下面命令：
 
 ```shell
 nohup java -jar geshanzsq-nav-admin.jar &
@@ -197,7 +203,7 @@ server {
    }
     
    # 后端项目配置
-   location /prod-api/ {
+   location /geshanzsq-nav-api/ {
         # 项目 IP 地址和端口，如果不在一台服务器，请填写对应的 IP；如果后端端口修改后，请填写修改后的端口
         proxy_pass http://127.0.0.1:8083//geshanzsq-nav-api/;
         proxy_set_header Host $host;
