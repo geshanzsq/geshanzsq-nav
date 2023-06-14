@@ -46,6 +46,7 @@
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-vue": "^8.0.3",
     "lint-staged": "^11.1.2",
+    "postcss": "^8.4.24",
     "sass": "^1.32.7",
     "sass-loader": "^12.0.0",
     "vue-cli-plugin-element-plus": "~0.0.13"
