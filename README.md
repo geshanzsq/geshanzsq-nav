@@ -223,8 +223,28 @@ Copyright © 2020-2023 **[格姗导航](https://gesdh.cn)** Released under the *
 
 > 注：本导航开源的目的是大家能够在本站的基础之上有所启发，做出更多新的东西，比如自定义导航。并不是让大家照搬所有代码。 如果你使用这个开源项目，请**注明**本项目开源地址。
 
+## 自定义导航
+
+自定义导航源码限时优惠中，功能强大，支持自定义导航、分享、第三方账号登录、自定义顶部链接、主题配置、简约版、访问记录、评论管理、分享管理、友情链接、网站配置、登录配置等功能，有需要的可联系小格子，下面是部分页面截图。
+
+![自定义导航-首页.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/531a07f7-5590-4f15-bf33-d2236d6c5e41.png)
+
+![自定义导航-主题设置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/387ab999-8af1-44f3-b6a8-04c640444bb7.png)
+
+![自定义导航-后台首页.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/9fd1c241-903c-450d-8d32-7da3f7a8898c.png)
+
+![自定义导航-访问统计.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/9db24b35-293d-4d80-8ca4-b940bb182b7b.png)
+
+![自定义导航-分享管理.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/4c87c459-c267-4899-a8a7-d356af6e91af.png)
+
+![自定义导航-顶部配置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/bb3f5616-05d1-4fd1-a86e-d736b5750829.png)
+
+![自定义导航-登录配置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/41c053a7-d25f-4d07-ae24-9f664a1c464c.png)
+
+![自定义导航-网站配置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/aad69891-5744-4f3e-8dd4-87a904d71135.png)
+
 ## 感谢
 
 若依后台管理系统：[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)
 
-花裤衩：[vue-element-admin](https://gitee.com/panjiachen/vue-element-admin)
+蘑菇博客：[mogu_blog](https://gitee.com/moxi159753/mogu_blog_v2)
