@@ -1,4 +1,6 @@
+[腾讯云服务器低价大优惠，推荐购买](https://cloud.tencent.com/act/cps/redirect?redirect=2446&cps_key=16aea3100cc0223300300021e15a760b&from=console)
 
+[阿里云服务器全面降价，限时优惠中](https://www.aliyun.com/product/ecs?userCode=tox0h0tg)
 
 # 格姗导航网站
 
