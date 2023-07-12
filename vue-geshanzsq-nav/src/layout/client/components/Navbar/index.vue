@@ -8,6 +8,15 @@
     />
 
     <weather v-if="weatherOpen && !isMobile" class="navbar-weather" />
+
+    <div class="right-menu">
+      <a href="https://gitee.com/geshanzsq/geshanzsq-nav" target="_blank">
+        <svg-icon icon-name="gitee" class="source-code" />
+      </a>
+      <a href="https://github.com/geshanzsq/geshanzsq-nav" target="_blank">
+        <svg-icon icon-name="github" class="source-code" />
+      </a>
+    </div>
   </div>
 </template>
 
@@ -59,58 +68,13 @@ function toggleSideBar() {
     line-height: 50px;
     display: flex;
 
-    &:focus {
-      outline: none;
-    }
-
-    .right-menu-item {
+    .source-code {
+      margin-right: 10px;
       display: inline-block;
-      padding: 0 8px;
+      font-size: 30px;
       height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
       vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-        transition: background 0.3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, 0.025);
-        }
-      }
     }
-
-    .avatar-container {
-      margin-right: 40px;
-
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-        }
-
-        i {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
-    }
-  }
-
-  .right-menu-no-login {
-    margin-right: 10px;
-    height: 100%;
-    line-height: 50px;
-    float: right;
   }
 }
 </style>
