@@ -48,7 +48,7 @@ CREATE TABLE `log_operation`  (
   `module_name` varchar(50) NULL DEFAULT '' COMMENT '模块名称',
   `business_type` tinyint(1) NULL DEFAULT 1 COMMENT '业务类型（1 其它，2 新增，3 修改，4 删除）',
   `operate_type` tinyint(1) NULL DEFAULT 1 COMMENT '操作类型（1 其它，2 后台用户，3 手机端用户，4 博客用户）',
-  `fk_user_id` bigint(20) NOT NULL COMMENT '操作用户 id',
+  `fk_user_id` bigint(20) NULL DEFAULT NULL COMMENT '操作用户 id',
   `request_method` varchar(10) NULL DEFAULT '' COMMENT '请求方式',
   `class_method` varchar(255) NULL DEFAULT '' COMMENT '类方法',
   `request_url` varchar(255) NULL DEFAULT '' COMMENT '请求地址',
