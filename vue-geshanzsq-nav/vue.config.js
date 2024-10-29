@@ -34,6 +34,10 @@ module.exports = defineConfig({
           ['^' + process.env.VUE_APP_BASE_API]: ''
         }
       }
+    },
+    client: {
+      // 编译错误时，取消全屏覆盖（建议关掉）
+      overlay: false
     }
   },
   configureWebpack: {
