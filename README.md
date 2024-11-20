@@ -1,7 +1,4 @@
-[腾讯云服务器低价大优惠，推荐购买](https://cloud.tencent.com/act/cps/redirect?redirect=2446&cps_key=16aea3100cc0223300300021e15a760b&from=console)
-
-[阿里云服务器全面降价，限时优惠中](https://www.aliyun.com/product/ecs?userCode=tox0h0tg)
-
+被裁失业中......在广州的小伙伴，有内推的可以找一下小格子。
 # 格姗导航网站
 
 一个基于 Spring Boot、MyBatis Plus、Vue3、Element Plus 前后端分离的导航网站系统，在线演示地址：[https://gesdh.cn](https://gesdh.cn)。由于工作和个人能力原因，部分技术都是边学习边开发，特别是前端（工作中是后端开发），基本上不熟悉，代码质量和设计，请大家多多指教
