@@ -1,0 +1,17 @@
+version: '3'
+services:
+  gesdh-cn-frontend:
+    container_name: gesdh-cn-frontend
+    # 最终生成的镜像名称
+    image: gesdh-cn-frontend:latest
+    build:
+      # 使用当前目录作为构建上下文
+      context: .
+      # 指定 Dockerfile 路径
+      dockerfile: Dockerfile
+    volumes:
+      - ./dist:/usr/share/nginx/html
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8023:80"
+    restart: always

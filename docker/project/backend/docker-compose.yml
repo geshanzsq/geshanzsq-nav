@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  gesdh-cn-backend:
+    container_name: gesdh-cn-backend
+    # 最终生成的镜像名称
+    image: gesdh-cn-backend:latest
+    build:
+      # 使用当前目录作为构建上下文
+      context: .
+      # 指定 Dockerfile 路径
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8083"
+    restart: always
+    # 使用宿主机网络
+    network_mode: "host"
+    environment:
+      - TZ=Asia/Shanghai
+    volumes:
+      - ./application-prod.yml:/app/application-prod.yml
+      - ./logs:/app/logs
+      - ../file/profile:/data/file/geshanzsq-nav/profile
