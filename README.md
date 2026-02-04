@@ -203,7 +203,7 @@ server {
    # 后端项目配置
    location /geshanzsq-nav-api/ {
         # 项目 IP 地址和端口，如果不在一台服务器，请填写对应的 IP；如果后端端口修改后，请填写修改后的端口
-        proxy_pass http://127.0.0.1:8083//geshanzsq-nav-api/;
+        proxy_pass http://127.0.0.1:8083/geshanzsq-nav-api/;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header REMOTE-HOST $remote_addr;
@@ -212,6 +212,17 @@ server {
 }
 
 ```
+
+### Docker 部署
+现在流行 Docker 部署，有很多小伙伴叫小格子整理一下 Docker 部署，下面以 Linux 系统为例，给大家简单的说明
+#### Docker 安装
+网上有很多安装教程，大家自行安装即可
+#### 项目启动
+把 docker 目录压缩上传到服务器并解压
+1. `docker/project/file/profile/profile.zip` 图片文件解压
+2. 如果修改了前端代码，自行打包 `dist.zip` 到 `docker/frontend/dist` 目录并解压
+3. 如果修改了后端代码，自行打包 `geshanzsq-nav-admin-application.jar` 到 `docker/project/backend`
+4. `docker` 目录提供了一键启动脚本 `start.sh`，执行 `sh start.sh` 可直接安装并启动 mysql、redis、nginx、后端、前端。同时提供了单独启动脚本，每个目录均有 `start.sh` 脚本。
 
 ## License
 
