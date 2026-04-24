@@ -11,6 +11,7 @@ import com.geshanzsq.common.framework.mybatis.plugin.query.QueryWrapperPlus;
 import com.geshanzsq.common.framework.mybatis.util.MybatisUtils;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -49,6 +50,76 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
     }
 
     /**
+     * 查询分页
+     *
+     * @param pageNum       页码
+     * @param pageSize      每页条数
+     * @param selectColumns 查询返回的列
+     */
+    default PageVO<T> selectPage(Long pageNum, Long pageSize, SFunction<T, ?>... selectColumns) {
+        return selectPage(buildPageParam(pageNum, pageSize), selectColumns);
+    }
+
+    /**
+     * 查询分页
+     *
+     * @param d          实体类参数对接
+     * @param ascColumns 升序排序列
+     */
+    default <D extends PageDTO> PageVO<T> selectPageAsc(D d, SFunction<T, ?>... ascColumns) {
+        IPage<T> myBatisPage = MybatisUtils.buildPage(d);
+        QueryWrapperPlus<T> queryWrapper = buildQueryWrapper(d);
+        if (ascColumns != null) {
+            queryWrapper.lambda().orderByAsc(Arrays.asList(ascColumns));
+        }
+        // 查询数据
+        selectPage(myBatisPage, queryWrapper);
+        // 转换返回值
+        return new PageVO<>(myBatisPage.getRecords(), myBatisPage.getTotal());
+    }
+
+    /**
+     * 查询分页
+     *
+     * @param pageNum    页码
+     * @param pageSize   每页条数
+     * @param ascColumns 升序排序列
+     */
+    default PageVO<T> selectPageAsc(Long pageNum, Long pageSize, SFunction<T, ?>... ascColumns) {
+        return selectPageAsc(buildPageParam(pageNum, pageSize), ascColumns);
+    }
+
+
+    /**
+     * 查询分页
+     *
+     * @param d           实体类参数对接
+     * @param descColumns 降序排序列
+     */
+    default <D extends PageDTO> PageVO<T> selectPageDesc(D d, SFunction<T, ?>... descColumns) {
+        IPage<T> myBatisPage = MybatisUtils.buildPage(d);
+        QueryWrapperPlus<T> queryWrapper = buildQueryWrapper(d);
+        if (descColumns != null) {
+            queryWrapper.lambda().orderByDesc(Arrays.asList(descColumns));
+        }
+        // 查询数据
+        selectPage(myBatisPage, queryWrapper);
+        // 转换返回值
+        return new PageVO<>(myBatisPage.getRecords(), myBatisPage.getTotal());
+    }
+
+    /**
+     * 查询分页
+     *
+     * @param pageNum     页码
+     * @param pageSize    每页条数
+     * @param descColumns 降序排序列
+     */
+    default PageVO<T> selectPageDesc(Long pageNum, Long pageSize, SFunction<T, ?>... descColumns) {
+        return selectPageDesc(buildPageParam(pageNum, pageSize), descColumns);
+    }
+
+    /**
      * 查询列表
      *
      * @param d             实体类参数对接
@@ -56,6 +127,61 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
      */
     default <D> List<T> selectList(D d, SFunction<T, ?>... selectColumns) {
         return selectList(buildQueryWrapper(d, selectColumns));
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param d          实体类参数对接
+     * @param ascColumns 升序排序列
+     * @param selectColumns 查询返回的列
+     */
+    default <D> List<T> selectListAsc(D d, List<SFunction<T, ?>> ascColumns, SFunction<T, ?>... selectColumns) {
+        QueryWrapperPlus<T> queryWrapper = buildQueryWrapper(d, selectColumns);
+        queryWrapper.lambda().orderByAsc(ascColumns);
+        return selectList(queryWrapper);
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param d          实体类参数对接
+     * @param ascColumns 升序排序列
+     */
+    default <D> List<T> selectListAsc(D d, SFunction<T, ?>... ascColumns) {
+        QueryWrapperPlus<T> queryWrapper = buildQueryWrapper(d);
+        if (ascColumns != null) {
+            queryWrapper.lambda().orderByAsc(Arrays.asList(ascColumns));
+        }
+        return selectList(queryWrapper);
+    }
+
+
+    /**
+     * 查询列表
+     *
+     * @param d           实体类参数对接
+     * @param descColumns 降序序排序列
+     * @param selectColumns 查询返回的列
+     */
+    default <D> List<T> selectListDesc(D d, List<SFunction<T, ?>> descColumns, SFunction<T, ?>... selectColumns) {
+        QueryWrapperPlus<T> queryWrapper = buildQueryWrapper(d, selectColumns);
+        queryWrapper.lambda().orderByDesc(descColumns);
+        return selectList(queryWrapper);
+    }
+
+    /**
+     * 查询列表
+     *
+     * @param d           实体类参数对接
+     * @param descColumns 降序序排序列
+     */
+    default <D> List<T> selectListDesc(D d, SFunction<T, ?>... descColumns) {
+        QueryWrapperPlus<T> queryWrapper = buildQueryWrapper(d);
+        if (descColumns != null) {
+            queryWrapper.lambda().orderByDesc(Arrays.asList(descColumns));
+        }
+        return selectList(queryWrapper);
     }
 
     /**
@@ -86,6 +212,20 @@ public interface BaseMapperPlus<T> extends BaseMapper<T> {
     default <D> QueryWrapperPlus<T> buildQueryWrapper(D d, SFunction<T, ?>... selectColumns) {
         Class<T> entityClass = (Class<T>) ReflectionKit.getSuperClassGenericType(getClass(), BaseMapperPlus.class, 0);
         return new QueryWrapperPlus<T>().buildQueryWrapper(entityClass, d, selectColumns);
+    }
+
+    /**
+     * 构建分页参数
+     *
+     * @param pageNum  页码
+     * @param pageSize 每页条数
+     * @return
+     */
+    default PageDTO buildPageParam(Long pageNum, Long pageSize) {
+        PageDTO pageDTO = new PageDTO();
+        pageDTO.setPageNum(pageNum);
+        pageDTO.setPageSize(pageSize);
+        return pageDTO;
     }
 
 }
