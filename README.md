@@ -261,6 +261,13 @@ Copyright © 2020-2023 **[格姗导航](https://gesdh.cn)** Released under the *
 
 ![自定义导航-网站配置.png](https://geshanzsq.com/geshanzsq-file/profile/image/2023/07/12/aad69891-5744-4f3e-8dd4-87a904d71135.png)
 
+## 项目文档说明
+下面三个后端代码规范、前端代码规范、项目结构规范，均由 ChatGPT Codex 生成，请小伙伴们自行查看。
+
+- [后端代码规范](./后端代码规范.md)
+- [前端代码规范](./前端代码规范.md)
+- [项目查询框架与接口开发实战指南](./项目查询框架与接口开发实战指南.md)
+
 ## 感谢
 
 若依后台管理系统：[RuoYi-Vue](https://gitee.com/y_project/RuoYi-Vue)
