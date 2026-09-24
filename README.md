@@ -1,5 +1,9 @@
 # 格姗导航网站
 
+欢迎体验小格子开发的微信小程序：时刻小助理
+
+![时刻小助理微信小程序](https://geshanzsq.com/geshanzsq-file/profile/image/2026/09/22/a7b1e1ad-afdc-4864-8930-7ea62b238ff4.jpg)
+
 一个基于 Spring Boot、MyBatis Plus、Vue3、Element Plus 前后端分离的导航网站系统，在线演示地址：[https://gesdh.cn](https://gesdh.cn)。由于工作和个人能力原因，部分技术都是边学习边开发，特别是前端（工作中是后端开发），基本上不熟悉，代码质量和设计，请大家多多指教
 
 欢迎加群一起学习交流技术。
